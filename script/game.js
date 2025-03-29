@@ -2,7 +2,7 @@ click.play();
 let players = [true, true, true, true];
 let attempts = [0, 0, 0, 0];
 let isPlaying = false;
-let cardImages = ['images/Q.png', 'images/K.png', 'images/A.png'];
+let cardImages = ['images/q.png', 'images/k.png', 'images/a.png'];
 let cardNames = {
     'images/Q.png': `<span class="queen">QUEEN'S</span> <span>TABLE</span>`,
     'images/K.png': `<span class="king">KING'S</span> <span>TABLE</span>`,
