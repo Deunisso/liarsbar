@@ -142,7 +142,7 @@ function play(index) {
             gunShot.play();  // Toca o áudio do tiro primeiro
             button.classList.add("dead");
             players[index] = false;
-            icon.src = "images/morto.png";
+            icon.src = "images/morto.gif";
 
             let normalizedPlayerName = normalizeName(playerNames[index]);
             let deathAudio = document.getElementById(`audio${normalizedPlayerName}`);
