@@ -5,11 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liar's Bar</title>
+    <script src="./script/loading.js"></script>
     <link rel="icon" type="image/png" href="images/icon.png" />
     <link rel="stylesheet" href="./style/game.css">
+    <link rel="stylesheet" href="./style/loading.css">
 </head>
 
 <body>
+    <div id="loading-spinner">
+        <img src="images/loading.gif" alt="Carregando...">
+    </div>
+
     <div id="card-name-container"></div>
 
     <div class="card-container" id="round-card" onclick="spinCard()">
@@ -35,6 +41,10 @@
     <audio id="start" src="./audios/start.mp3" preload="auto"></audio>
     <audio id="click" src="./audios/click.mp3" preload="auto"></audio>
 
+    <script>
+
+    </script>
+    
     <script src="./script/game.js"></script>
 </body>
 
