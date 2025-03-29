@@ -53,6 +53,9 @@ function spinCard() {
     let cardSpinSound = document.getElementById("cardSpinSound");
     let hiddenContainer = document.querySelector(".container");
 
+    // Inicializa a visibilidade da carta para ser visível durante a rotação
+    cardElement.style.display = 'flex';
+
     cardSpinSound.play();
 
     let index = 0;
@@ -71,7 +74,7 @@ function spinCard() {
         // Sorteia uma carta aleatória
         currentCard = cardImages[Math.floor(Math.random() * cardImages.length)];
         cardImage.src = currentCard;
-        cardElement.style.transform = "translate(-50%, -50%) rotateY(0deg)";
+        cardElement.style.transform = "translate(-50%, -50%) rotateY(0deg)"; // Para a rotação no final
 
         // Toca o som correspondente à carta sorteada
         if (currentCard.includes("a.png")) {
@@ -86,9 +89,10 @@ function spinCard() {
         }
 
         setTimeout(() => {
+            // Exibe a carta e nome após a rotação
             cardElement.style.display = 'none';
-
             hiddenContainer.style.display = "flex";
+
             setTimeout(() => {
                 // Exibe o nome da carta sorteada
                 let cardName = cardNames[currentCard];
