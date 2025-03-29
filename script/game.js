@@ -4,9 +4,9 @@ let attempts = [0, 0, 0, 0];
 let isPlaying = false;
 let cardImages = ['images/q.png', 'images/k.png', 'images/a.png'];
 let cardNames = {
-    'images/Q.png': `<span class="queen">QUEEN'S</span> <span>TABLE</span>`,
-    'images/K.png': `<span class="king">KING'S</span> <span>TABLE</span>`,
-    'images/A.png': `<span class="ace">ACE'S</span> <span>TABLE</span>`
+    'images/q.png': `<span class="queen">QUEEN'S</span> <span>TABLE</span>`,
+    'images/k.png': `<span class="king">KING'S</span> <span>TABLE</span>`,
+    'images/a.png': `<span class="ace">ACE'S</span> <span>TABLE</span>`
 };
 let currentCard = '';
 let scores = [0, 0, 0, 0];  // Array para armazenar a pontuação
