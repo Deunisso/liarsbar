@@ -1,0 +1,97 @@
+body {
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    max-width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    /* Garantir que o carrossel ocupe a largura total */
+}
+
+.player-card {
+    flex: 0 0 auto;
+    width: 220px;
+    margin: 0 10px;
+    cursor: pointer;
+    scroll-snap-align: center;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    border-radius: 10px;
+    /* Adiciona border-radius no próprio card */
+    overflow: hidden;
+    /* Para garantir que a borda arredondada não corte o conteúdo */
+}
+
+.player-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    filter: grayscale(100%);
+    transition: filter 0.3s, transform 0.3s;
+}
+
+.player-card.selected img {
+    filter: none;
+    transform: scale(1.2);
+}
+
+
+.player-card p {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin: 0;
+    padding: 5px 0;
+    border-radius: 5px;
+}
+
+#start-game {
+    margin-top: 20px;
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: gray;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+#start-game.enabled {
+    background-color: green;
+}
+
+@media (max-width: 768px) {
+    .player-card {
+        width: 180px;
+    }
+
+    #start-game {
+        font-size: 16px;
+        padding: 12px 24px;
+    }
+}

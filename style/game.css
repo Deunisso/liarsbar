@@ -1,0 +1,138 @@
+body {
+    background-color: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 95vh;
+    flex-direction: column;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+.card-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateY(0deg);
+    width: 200px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    transform-style: preserve-3d;
+    transition: transform 1s;
+    z-index: 100;
+    cursor: pointer;
+}
+
+.card-container img {
+    width: 150%;
+    height: 150%;
+    border-radius: 15px;
+}
+
+.container {
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.container.show {
+    opacity: 1;
+}
+
+.player {
+    width: 320px;
+    height: 140px;
+    font-size: 28px;
+    font-weight: bold;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    cursor: pointer;
+    position: relative;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    transition: background 0.3s;
+    outline: none;
+}
+
+.player:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.dead {
+    background: darkred !important;
+    border-color: darkred !important;
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none !important;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.status-icon {
+    width: 70px;
+    height: 74px;
+}
+
+.score {
+    margin-left: 10px;
+    font-size: 28px;
+    color: #ff0;
+}
+
+#card-name-container {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 20px;
+    opacity: 0;
+    /* Inicialmente invisível */
+    transition: opacity 0.5s ease-in-out;
+    /* Transição suave para opacidade */
+    visibility: hidden;
+    /* Inicialmente invisível */
+}
+
+#card-name-container.show {
+    visibility: visible;
+    /* Torna o elemento visível */
+    opacity: 1;
+    /* Torna o elemento visível com transição suave */
+}
+
+#card-name-container span {
+    color: white;
+    /* "TABLE" sempre branco */
+}
+
+#card-name-container .ace {
+    color: orange;
+}
+
+#card-name-container .king {
+    color: red;
+}
+
+#card-name-container .queen {
+    color: purple;
+}
