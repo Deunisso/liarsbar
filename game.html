@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liar's Bar</title>
+    <link rel="icon" type="image/png" href="images/icon.png" />
+    <link rel="stylesheet" href="./style/game.css">
+</head>
+
+<body>
+    <div id="card-name-container"></div>
+
+    <div class="card-container" id="round-card" onclick="spinCard()">
+        <img id="card-image" src="images/back.png" alt="Carta">
+    </div>
+
+    <div class="container" id="players-container"></div>
+
+    <audio id="audioDanilo" src="./audios/danilo.mp3" preload="auto"></audio>
+    <audio id="audioDenilson" src="./audios/denilson.mp3" preload="auto"></audio>
+    <audio id="audioKaique" src="./audios/kaique.mp3" preload="auto"></audio>
+    <audio id="audioKaua" src="./audios/kaua.mp3" preload="auto"></audio>
+    <audio id="audioLeticia" src="./audios/leticia.mp3" preload="auto"></audio>
+    <audio id="audioRegina" src="./audios/regina.mp3" preload="auto"></audio>
+    <audio id="audioTayara" src="./audios/tayara.mp3" preload="auto"></audio>
+
+    <audio id="cardSpinSound" src="./audios/spin.mp3" preload="auto"></audio>
+    <audio id="clickSound" src="./audios/clickSound.mp3" preload="auto"></audio>
+    <audio id="gunShot" src="./audios/gunShot.mp3" preload="auto"></audio>
+    <audio id="winSound" src="./audios/winSound.mp3" preload="auto"></audio>
+    <audio id="surviveSound" src="./audios/surviveSound.mp3" preload="auto"></audio>
+    <audio id="reload" src="./audios/reload.mp3" preload="auto"></audio>
+    <audio id="start" src="./audios/start.mp3" preload="auto"></audio>
+    <audio id="click" src="./audios/click.mp3" preload="auto"></audio>
+
+    <script src="./script/game.js"></script>
+</body>
+
+</html>
