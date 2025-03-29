@@ -15,8 +15,3 @@
     width: 200px;
     height: auto;
 }
-
-.loading {
-    pointer-events: none;
-    opacity: 0.5;
-}
