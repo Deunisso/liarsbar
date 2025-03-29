@@ -1,150 +1,50 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roleta Russa</title>
-    <link rel="icon" type="image/png" href="https://clipart-library.com/8300/2368/gun-clipart-xl.png"/>
-    <style>
-        body {
-            background-color: #1a1a1a;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            color: white;
-        }
-        .status {
-            font-size: 32px;
-            margin-bottom: 50px;
-        }
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: center;
-        }
-        .player {
-            width: 320px;
-            height: 160px;
-            font-size: 28px;
-            font-weight: bold;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            cursor: pointer;
-            position: relative;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(8px);
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-            transition: background 0.3s;
-            outline: none;
-        }
-        .player:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.05);
-        }
-        .dead {
-            background: darkred !important;
-            border-color: darkred !important;
-            cursor: not-allowed;
-            pointer-events: none;
-            transform: none !important;
-        }
-        .attempts {
-            font-size: 24px;
-            margin-top: 10px;
-            color: #ff4444;
-        }
-    </style>
+    <title>Seleção de Jogadores</title>
+    <link rel="icon" type="image/png" href="images/icon.png" />
+    <link rel="stylesheet" href="./style/index.css">
 </head>
+
 <body>
-    <div class="status" id="status">🟢🟢🟢🟢</div>
-    <div class="container">
-        <button class="player alive" id="p1" onclick="play(0)">
-            Danilo 
-            <span class="attempts" id="a1"></span>
-        </button>
-        <button class="player alive" id="p2" onclick="play(1)">
-            Denilson
-            <span class="attempts" id="a2"></span>
-        </button>
-        <button class="player alive" id="p3" onclick="play(2)">
-            Kaique
-            <span class="attempts" id="a3"></span>
-        </button>
-        <button class="player alive" id="p4" onclick="play(3)">
-            Kauã
-            <span class="attempts" id="a4"></span>
-        </button>
+    <h2>Selecione 4 jogadores:</h2>
+    <div class="carousel" id="carousel">
+        <div class="player-card" onclick="selectPlayer(this, 'Danilo')">
+            <img src="./images/danilo.png" alt="Danilo">
+            <p>Danilo</p>
+        </div>
+        <div class="player-card" onclick="selectPlayer(this, 'Denilson')">
+            <img src="./images/denilson.png" alt="Denilson">
+            <p>Denilson</p>
+        </div>
+        <div class="player-card" onclick="selectPlayer(this, 'Kaique')">
+            <img src="./images/kaique.png" alt="Kaique">
+            <p>Kaique</p>
+        </div>
+        <div class="player-card" onclick="selectPlayer(this, 'Kaua')">
+            <img src="./images/kaua.png" alt="Kauã">
+            <p>Kauã</p>
+        </div>
+        <div class="player-card" onclick="selectPlayer(this, 'Leticia')">
+            <img src="./images/leticia.png" alt="Letícia">
+            <p>Letícia</p>
+        </div>
+        <div class="player-card" onclick="selectPlayer(this, 'Regina')">
+            <img src="./images/regina.png" alt="Regina">
+            <p>Regina</p>
+        </div>
+        <div class="player-card" onclick="selectPlayer(this, 'Tayara')">
+            <img src="./images/tayara.png" alt="Tayara">
+            <p>Tayara</p>
+        </div>
     </div>
 
-    <audio id="clickSound" src="https://p.productioncrate.com/stock-hd/audio/soundscrate-Stylized_Gun_Reload_01.mp3" preload="auto"></audio>
-    <audio id="gunShot" src="https://p.productioncrate.com/stock-hd/audio/soundscrate-Action_Gun_Shot_08.mp3" preload="auto"></audio>
-    <audio id="winSound" src="https://p.productioncrate.com/stock-hd/audio/soundscrate-battle-narrator-you-win.mp3" preload="auto"></audio>
-    <audio id="surviveSound" src="https://p.productioncrate.com/stock-hd/audio/soundscrate-the-fifth-awakening.mp3" preload="auto"></audio>
+    <button id="start-game" onclick="startGame()" disabled>Iniciar Jogo</button>
 
-    <script>
-        let players = [true, true, true, true];
-        let attempts = [0, 0, 0, 0];
-        let isPlaying = false;
-
-        function play(index) {
-            if (!players[index] || attempts[index] >= 6 || isPlaying) return;
-            
-            isPlaying = true;
-            
-            let button = document.getElementById(`p${index + 1}`);
-            let attemptLabel = document.getElementById(`a${index + 1}`);
-            let clickSound = document.getElementById("clickSound");
-            let gunShot = document.getElementById("gunShot");
-            let winSound = document.getElementById("winSound");
-            let surviveSound = document.getElementById("surviveSound");
-
-            clickSound.play();
-
-            setTimeout(() => {
-                attempts[index]++;
-                attemptLabel.innerText = "💀".repeat(attempts[index]);
-
-                let morte = attempts[index] >= 6 || Math.random() < 1 / 6;
-
-                if (morte) {
-                    gunShot.play();
-                    button.classList.add("dead");
-                    button.blur(); // Remove o foco do botão
-                    players[index] = false;
-                    updateStatus();
-                } else {
-                    surviveSound.play();
-                }
-
-                setTimeout(() => {
-                    if (players.filter(p => p).length === 1) {
-                        winSound.play();
-                        disableAll();
-                    }
-                    isPlaying = false;
-                }, 1000);
-            }, 1000);
-        }
-
-        function disableAll() {
-            players.forEach((_, i) => document.getElementById(`p${i+1}`).style.pointerEvents = "none");
-        }
-
-        function updateStatus() {
-            let statusDiv = document.getElementById("status");
-            let statusText = players.map(p => p ? "🟢" : "🔴").join("");
-            statusDiv.innerHTML = statusText;
-        }
-    </script>
+    <script src="./script/index.js"></script>
 </body>
+
 </html>
