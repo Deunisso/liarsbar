@@ -10,6 +10,7 @@ let cardNames = {
 };
 let currentCard = '';
 let scores = [0, 0, 0, 0];  // Array para armazenar a pontuação
+let playerNames = ["Danilo", "Denilson", "Kauã", "Kaique"];
 
 function shufflePlayers() {
     // Recupera os jogadores salvos no localStorage
@@ -181,9 +182,6 @@ function resetGame() {
     attempts = [0, 0, 0, 0];
     isPlaying = false;
     hasSpun = false;
-
-    // Carrega os pontos dos jogadores do localStorage
-    loadScoresFromLocalStorage();
 
     let container = document.getElementById("players-container");
     container.innerHTML = "";
