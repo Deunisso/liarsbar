@@ -38,10 +38,10 @@ document.addEventListener("DOMContentLoaded", function () {
             if (roundCard) {
                 roundCard.style.opacity = "1"; // Torna a carta visível
                 roundCard.style.visibility = "visible"; // Torna a carta interativa
-                click.play();
             }
         }, 500); // Aguarda meio segundo para remover a tela
-    }, 3000); // Aguardar 2 segundos antes de exibir a carta
+    }, 3000); // Aguardar 3 segundos antes de exibir a carta
+    start.play();
 });
 
 let players = [true, true, true, true];
@@ -150,7 +150,6 @@ function spinCard() {
                 cardNameContainer.classList.add("show");
 
                 hiddenContainer.classList.add("show");
-                start.play();
                 reload.play();
             }, 100);
         }, 2000);
@@ -268,10 +267,10 @@ function resetGame() {
             if (roundCard) {
                 roundCard.style.opacity = "1"; // Torna a carta visível
                 roundCard.style.visibility = "visible"; // Torna a carta interativa
-                click.play();
             }
         }, 500); // Aguarda meio segundo para remover a tela
-    }, 2000); // Aguardar 2 segundos antes de exibir a carta
+    }, 3000); // Aguardar 3 segundos antes de exibir a carta
+    start.play()
 
     players = [true, true, true, true];
     attempts = [0, 0, 0, 0];
@@ -358,8 +357,6 @@ function resetGame() {
         }, 8000); 
     };
 
-    // Alternando aleatoriamente entre os modos de jogo
-    const modes = ['game.html', 'game2.html', 'game3.html'];
-    const randomMode = modes[Math.floor(Math.random() * modes.length)];
-    window.location.href = randomMode; // Redireciona para o novo modo de jogo
+    const gamemode = 'gamemodes.html';
+    window.location.href = gamemode;
 }
