@@ -52,17 +52,16 @@ function spinCard() {
     let cardImage = document.getElementById("card-image");
     let cardSpinSound = document.getElementById("cardSpinSound");
     let hiddenContainer = document.querySelector(".container");
-
-    // Inicializa a visibilidade da carta para ser visível durante a rotação
-    cardElement.style.display = 'flex';
+    let audioA = new Audio("./audios/audioA.mp3");
+    let audioK = new Audio("./audios/audioK.mp3");
+    let audioQ = new Audio("./audios/audioQ.mp3");
+    let index = 0;
 
     cardSpinSound.play();
 
-    let index = 0;
-
     let interval = setInterval(() => {
         cardImage.src = cardImages[index % cardImages.length];
-        cardElement.style.transform = translate(-50%, -50%) rotateY(${index * 60}deg);
+        cardElement.style.transform = `translate(-50%, -50%) rotateY(${index * 60}deg)`;
         index++;
     }, 100);
 
