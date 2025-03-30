@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Criação da tela de introdução
+    let startAudio = new Audio("./audios/start.mp3");
+    startAudio.play();
+
     let introScreen = document.createElement("div");
     introScreen.id = "intro-screen";
     introScreen.innerHTML = `
@@ -14,34 +16,28 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
     document.body.appendChild(introScreen);
 
-    // Referências aos elementos da tela de jogo e carta
     let gameContainer = document.getElementById("game-container");
-    let roundCard = document.getElementById("round-card"); 
+    let roundCard = document.getElementById("round-card");
 
-    // Esconde a tela do jogo e a carta inicialmente
     if (gameContainer) gameContainer.style.display = "none";
     if (roundCard) {
-        roundCard.style.opacity = "0"; // Inicialmente a carta está invisível
-        roundCard.style.visibility = "hidden"; // A carta não é interativa
+        roundCard.style.opacity = "0"; 
+        roundCard.style.visibility = "hidden";
     }
 
-    // Após 2 segundos, remove a tela de introdução e exibe a carta
     setTimeout(() => {
-        introScreen.style.opacity = "0"; // Apaga a tela de introdução
+        introScreen.style.opacity = "0"; 
         setTimeout(() => {
-            introScreen.remove(); // Remove a tela de introdução do DOM
+            introScreen.remove(); 
 
-            // Exibe o conteúdo do jogo
             if (gameContainer) gameContainer.style.display = "block";
 
-            // Torna a carta visível e interativa
             if (roundCard) {
-                roundCard.style.opacity = "1"; // Torna a carta visível
-                roundCard.style.visibility = "visible"; // Torna a carta interativa
+                roundCard.style.opacity = "1"; 
+                roundCard.style.visibility = "visible"; 
             }
-        }, 500); // Aguarda meio segundo para remover a tela
-    }, 3000); // Aguardar 3 segundos antes de exibir a carta
-    start.play();
+        }, 500); 
+    }, 3000); 
 });
 
 let players = [true, true, true, true];
@@ -54,7 +50,7 @@ let cardNames = {
     'images/a2.png': `<span class="ace">ACE'S</span> <span>TABLE ❤️</span>`,
 };
 let currentCard = '';
-let scores = [0, 0, 0, 0];  
+let scores = [0, 0, 0, 0];
 let playerNames = ["Danilo", "Denilson", "Kauã", "Kaique"];
 
 function shufflePlayers() {
@@ -89,7 +85,7 @@ let audioQ = new Audio("./audios/audioQ.mp3");
 function shuffleCards() {
     for (let i = cardImages.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [cardImages[i], cardImages[j]] = [cardImages[j], cardImages[i]]; 
+        [cardImages[i], cardImages[j]] = [cardImages[j], cardImages[i]];
     }
 }
 
@@ -125,7 +121,7 @@ function spinCard() {
 
         currentCard = currentCards[Math.floor(Math.random() * currentCards.length)];
         cardImage.src = currentCard;
-        cardElement.style.transform = "translate(-50%, -50%) rotateY(0deg)"; 
+        cardElement.style.transform = "translate(-50%, -50%) rotateY(0deg)";
 
         if (currentCard.includes("a2.png")) {
             audioA.currentTime = 0;
@@ -137,7 +133,7 @@ function spinCard() {
             audioQ.currentTime = 0;
             audioQ.play();
         }
-    
+
         setTimeout(() => {
             cardElement.style.display = 'none';
             hiddenContainer.style.display = "flex";
@@ -210,7 +206,7 @@ function play(index) {
             if (players.filter(p => p).length === 1) {
                 setTimeout(() => {
                     winSound.play();
-                }, 2000); 
+                }, 2000);
 
                 setTimeout(() => {
                     players.forEach((alive, i) => {
@@ -228,135 +224,9 @@ function play(index) {
 }
 
 function resetGame() {
-    // Criação da tela de introdução
-    let introScreen = document.createElement("div");
-    introScreen.id = "intro-screen";
-    introScreen.innerHTML = `
-        <div class="intro-content">
-            <p>DEVIL</p><br>
-            <p>Deck Contains</p>
-            <p>6x Ace's</p>
-            <p>6x King's</p>
-            <p>6x Queen's</p>
-            <p>2x Joker's</p>
-        </div>
-    `;
-    document.body.appendChild(introScreen);
-
-    // Referências aos elementos da tela de jogo e carta
-    let gameContainer = document.getElementById("game-container");
-    let roundCard = document.getElementById("round-card"); 
-
-    // Esconde a tela do jogo e a carta inicialmente
-    if (gameContainer) gameContainer.style.display = "none";
-    if (roundCard) {
-        roundCard.style.opacity = "0"; // Inicialmente a carta está invisível
-        roundCard.style.visibility = "hidden"; // A carta não é interativa
-    }
-
-    // Após 2 segundos, remove a tela de introdução e exibe a carta
-    setTimeout(() => {
-        introScreen.style.opacity = "0"; // Apaga a tela de introdução
-        setTimeout(() => {
-            introScreen.remove(); // Remove a tela de introdução do DOM
-
-            // Exibe o conteúdo do jogo
-            if (gameContainer) gameContainer.style.display = "block";
-
-            // Torna a carta visível e interativa
-            if (roundCard) {
-                roundCard.style.opacity = "1"; // Torna a carta visível
-                roundCard.style.visibility = "visible"; // Torna a carta interativa
-            }
-        }, 500); // Aguarda meio segundo para remover a tela
-    }, 3000); // Aguardar 3 segundos antes de exibir a carta
-    start.play()
-
-    players = [true, true, true, true];
-    attempts = [0, 0, 0, 0];
-    isPlaying = false;
-    hasSpun = false;
-
-    let container = document.getElementById("players-container");
-    container.innerHTML = "";
-
-    playerNames.forEach((name, i) => {
-        container.innerHTML += `
-            <button class="player alive" id="p${i + 1}" onclick="play(${i})">
-                <div class="info">
-                    <img src="images/vida0.png" class="status-icon" id="i${i + 1}">
-                    <span>${name}</span>
-                    <span class="score" id="score${i + 1}">${scores[i]}</span> 
-                </div>
-            </button>
-        `;
-    });
-
-    let cardElement = document.getElementById("round-card");
-    let cardImage = document.getElementById("card-image");
-    cardImage.src = 'images/back.png';
-    cardElement.style.display = 'flex';
-
-    let hiddenContainer = document.querySelector(".container");
-    hiddenContainer.style.display = "none";
-    hiddenContainer.classList.remove("show");
-
-    let cardNameContainer = document.getElementById("card-name-container");
-    cardNameContainer.classList.remove("show"); 
-
-    let reload = document.getElementById("reload");
-    let start = document.getElementById("start");
-    reload.currentTime = 0;
-    start.currentTime = 0;
-
-    cardElement.onclick = function () {
-        spinCard();
-
-        setTimeout(() => {
-            let maxScore = Math.max(...scores);
-            let leaderIndices = scores.map((score, i) => score === maxScore ? i : -1).filter(i => i !== -1);
-
-            if (leaderIndices.length > 0) {
-                let leaderAudios = leaderIndices.map(index => {
-                    let leaderName = playerNames[index];
-                    let normalizedLeaderName = leaderName.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                    return new Audio(`./audios/${normalizedLeaderName}.mp3`);
-                });
-
-                let leaderMessage;
-                if (leaderAudios.length === 1) {
-                    leaderMessage = new Audio("./audios/esta_na_lideranca.mp3");
-                } else {
-                    leaderMessage = new Audio("./audios/estao_na_lideranca.mp3");
-                }
-
-                let audioE = new Audio("./audios/e.mp3");
-
-                function playSequence(index) {
-                    if (index >= leaderAudios.length) {
-                        setTimeout(() => leaderMessage.play(), 250);
-                        return;
-                    }
-
-                    leaderAudios[index].play();
-
-                    if (index === leaderAudios.length - 2 && leaderAudios.length > 1) {
-                        leaderAudios[index].onended = () => {
-                            audioE.play();
-                            audioE.onended = () => {
-                                playSequence(index + 1);
-                            };
-                        };
-                    } else {
-                        leaderAudios[index].onended = () => playSequence(index + 1);
-                    }
-                }
-
-                playSequence(0);
-            }
-        }, 8000); 
-    };
-
     const gamemode = 'gamemodes.html';
-    window.location.href = gamemode;
+    
+    setTimeout(() => {
+        window.location.href = gamemode;
+    }, 3000); 
 }

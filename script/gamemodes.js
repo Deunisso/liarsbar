@@ -1,11 +1,10 @@
 function playAudio(button) {
     let audio;
-    const buttons = document.querySelectorAll('.button'); // Todos os botões com a classe 'button'
+    const buttons = document.querySelectorAll('.button'); 
 
-    // Desabilita todos os botões, exceto o clicado
     buttons.forEach(btn => {
         if (btn.id !== button) {
-            btn.classList.add('disabled'); // Adiciona a classe 'disabled' aos botões não clicados
+            btn.classList.add('disabled');
         }
     });
 

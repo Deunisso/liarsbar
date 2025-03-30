@@ -27,9 +27,7 @@ body {
     z-index: 100;
     cursor: pointer;
     opacity: 0;
-    /* Faz a carta ficar invisível */
     visibility: hidden;
-    /* A carta não será interativa */
 }
 
 .card-container img {
@@ -110,23 +108,17 @@ body {
     color: white;
     margin-bottom: 20px;
     opacity: 0;
-    /* Inicialmente invisível */
     transition: opacity 0.5s ease-in-out;
-    /* Transição suave para opacidade */
     visibility: hidden;
-    /* Inicialmente invisível */
 }
 
 #card-name-container.show {
     visibility: visible;
-    /* Torna o elemento visível */
     opacity: 1;
-    /* Torna o elemento visível com transição suave */
 }
 
 #card-name-container span {
     color: white;
-    /* "TABLE" sempre branco */
 }
 
 #card-name-container .ace {
@@ -207,7 +199,6 @@ body {
     background-color: darkviolet;
 }
 
-/* Modal overlay */
 #chaos-modal {
     position: fixed;
     top: 0;
@@ -223,31 +214,11 @@ body {
     transition: visibility 0s, opacity 0.3s ease-in-out;
 }
 
-/* Show the modal */
 #chaos-modal.show {
     visibility: visible;
     opacity: 1;
 }
 
-/* Modal Content */
-.modal-content {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    width: 480px; /* Mantendo o tamanho */
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
-    position: relative;
-    animation: fadeIn 0.5s ease;
-    transition: transform 0.3s ease; /* Efeito de movimento suave */
-}
-
-/* Adicionando um efeito de escalonamento suave */
-.modal-content:hover {
-    transform: scale(1.03); /* Aumentando levemente o tamanho ao passar o mouse */
-}
-
-/* Fade-in animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -259,26 +230,23 @@ body {
         transform: scale(1);
     }
 }
-
-/* Modal Heading */
 .modal-content h2 {
     font-size: 20px;
     color: #333;
     margin-bottom: 20px;
 }
 
-/* Player buttons container (usando grid para 2 colunas) */
 #player-selection {
     display: grid;
     gap: 15px;
-    margin-bottom: 80px;
+    grid-template-columns: repeat(2, 1fr); 
+    grid-template-rows: repeat(2, auto);
 }
 
-/* Player buttons */
 .player-button {
     display: inline-block;
     padding: 12px 20px;
-    background-color: #007bff;
+    background-color: gray;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -288,47 +256,25 @@ body {
     text-align: center;
 }
 
-/* Hover effect for player buttons */
-.player-button:hover {
-    background-color: #0056b3;
+.player-button.selected {
+    background-color: purple;
     transform: scale(1.05);
 }
 
-/* Active player button (when selected) */
-.player-button.selected {
-    background-color: #ffc107;
-    transform: scale(1.1);
-}
-
-/* Execute and Cancel button container */
 .execute-container {
     margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
 }
 
-/* Styling for execute button */
 .player-button.execute {
     background-color: #28a745;
     width: 45%;
 }
 
-.player-button.execute:hover {
-    background-color: #218838;
-}
-
-/* Styling for cancel button */
 .player-button.cancel {
     background-color: #dc3545;
     width: 45%;
 }
 
-.player-button.cancel:hover {
-    background-color: #c82333;
-}
-
-/* Modal close transition */
 #chaos-modal.close {
     visibility: hidden;
     opacity: 0;
@@ -358,14 +304,13 @@ body {
     background-color: #fff;
     padding: 30px;
     border-radius: 8px;
-    width: 480px; /* Tamanho fixo */
-    min-height: 300px; /* Garantindo uma altura mínima */
+    width: 480px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
     animation: fadeIn 0.5s ease;
-    transition: transform 0.3s ease; /* Efeito de movimento suave */
-    overflow-y: auto; /* Caso o conteúdo seja maior, haverá rolagem */
+    transition: transform 0.3s ease;
+    overflow-y: auto; 
 }
 
 #master-selection select {
@@ -378,7 +323,6 @@ body {
     display: inline-block;
     margin: 10px 5px;
     padding: 10px;
-    background-color: #4CAF50;
     color: white;
     cursor: pointer;
 }
@@ -387,7 +331,6 @@ body {
     background-color: #f44336;
 }
 
-/* Estilos gerais do Select */
 select {
     width: 100%;
     padding: 10px 15px;
@@ -400,25 +343,14 @@ select {
     transition: all 0.3s ease;
 }
 
-/* Efeito de foco: quando o select é clicado */
 select:focus {
     background-color: #e0f7fa;
-    /* Light blue when selected */
     border-color: #4CAF50;
-    /* Green border on focus */
     outline: none;
-    /* Remove the default outline */
 }
 
-/* Estilo para a opção selecionada */
 option {
     padding: 10px;
     background-color: white;
     color: #333;
-}
-
-/* Efeito hover nas opções */
-select option:hover {
-    background-color: #4CAF50;
-    color: white;
 }

@@ -17,58 +17,40 @@ body {
 .container {
     text-align: center;
     width: 100%;
-    max-width: 400px; /* Limitar a largura para que os botões não fiquem muito grandes em telas grandes */
+    max-width: 400px;
 }
 
 .button {
-    background-color: white;
+    background-color: transparent;
     border: none;
     color: black;
-    padding: 50px 60px; /* Aumentando o height e width dos botões */
-    font-size: 40px; /* Aumentando o tamanho da fonte */
-    margin: 15px 0; /* Aumentar o espaçamento entre os botões */
+    padding: 50px 60px;
+    margin: 15px 0;
     border-radius: 15px;
     cursor: pointer;
     transition: all 0.3s ease;
-    width: 100%; /* Garantir que os botões ocupem toda a largura da tela */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Adicionando sombra para dar um efeito de profundidade */
-}
-
-.button:active {
-    transform: scale(0.95); /* Efeito de "pressionamento" para quando o botão for clicado */
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4); /* Sombra mais intensa quando pressionado */
+    width: 100%;
+    background-size: cover;
+    background-position: center;
 }
 
 .button:hover {
-    transform: scale(1.1); /* Aumenta suavemente o botão quando passa o mouse por cima */
-    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3); /* Sombra mais forte ao passar o mouse */
+    transform: scale(1.1);
 }
 
 #basic {
-    background-color: royalblue;
-    color: white;
+    background-image: url('/images/basic.png');
 }
 
 #devil {
-    background-color: red;
-    color: white;
+    background-image: url('/images/devil.png');
 }
 
 #chaos {
-    background-color: purple;
-    color: white;
+    background-image: url('/images/chaos.png');
 }
 
 button.disabled {
-    background-color: #d3d3d3 !important; /* Cor cinza */
-    cursor: not-allowed !important; /* Cursor de não permitido */
-    pointer-events: none !important; /* Desabilita o clique */
-}
-
-@media (max-width: 600px) {
-    /* Ajustar para telas menores */
-    .button {
-        font-size: 34px; /* Reduzir o tamanho da fonte em telas pequenas */
-        padding: 40px 50px; /* Reduzir o tamanho dos botões para mobile */
-    }
+    cursor: not-allowed !important;
+    pointer-events: none !important;
 }
