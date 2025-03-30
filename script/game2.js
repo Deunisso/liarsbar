@@ -129,13 +129,13 @@ function spinCard() {
         cardImage.src = currentCard;
         cardElement.style.transform = "translate(-50%, -50%) rotateY(0deg)";
 
-        if (currentCard.includes("a.png")) {
+        if (currentCard.includes("a2.png")) {
             audioA.currentTime = 0;
             audioA.play();
-        } else if (currentCard.includes("k.png")) {
+        } else if (currentCard.includes("k2.png")) {
             audioK.currentTime = 0;
             audioK.play();
-        } else if (currentCard.includes("q.png")) {
+        } else if (currentCard.includes("q2.png")) {
             audioQ.currentTime = 0;
             audioQ.play();
         }
@@ -148,18 +148,14 @@ function spinCard() {
                 let cardName = cardNames[currentCard];
                 let cardNameContainer = document.getElementById("card-name-container");
                 cardNameContainer.innerHTML = cardName;
-
+                let buttonsContainer = document.querySelector(".buttons-container");
+                if (buttonsContainer) {
+                    buttonsContainer.classList.add("show");
+                }
                 cardNameContainer.classList.add("show");
 
                 hiddenContainer.classList.add("show");
                 reload.play();
-
-                setTimeout(() => {
-                    let music = new Audio("./audios/music.ogg");
-                    music.currentTime = 0;
-                    music.loop = true;  // Faz a música repetir indefinidamente
-                    music.play();
-                }, 3000); // Aqui o setTimeout faz a música music.mp3 começar a tocar após 3 segundos, ou seja, após a música reload.mp3 tocar.
             }, 100); // Este intervalo está fazendo a rotação da carta a cada 100 milissegundos, o que causa o efeito de giro.
         }, 2000); // Aqui, após a escolha da carta, a carta some da tela (display: none) e um outro contêiner (provavelmente para mostrar o resultado) é exibido (display: flex).
     }, 2000); // Aqui, a rotação da carta é interrompida e o som de rotação é pausado e resetado.
@@ -371,6 +367,19 @@ function playDevil(indices) {
 
     isPlaying = false;
 }
+
+let musicToggle = document.getElementById("music-toggle");
+let music = document.getElementById("music");
+
+music.pause();
+
+musicToggle.addEventListener("change", function() {
+    if (musicToggle.checked) {
+        music.play(); 
+    } else {
+        music.pause(); 
+    }
+});
 
 function resetGame() {
     const gamemode = 'gamemodes.html';

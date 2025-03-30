@@ -154,13 +154,6 @@ function spinCard() {
 
                 hiddenContainer.classList.add("show");
                 reload.play();
-
-                setTimeout(() => {
-                    let music = new Audio("./audios/music.ogg");
-                    music.currentTime = 0;
-                    music.loop = true;  // Faz a música repetir indefinidamente
-                    music.play();
-                }, 3000); // Aqui o setTimeout faz a música music.mp3 começar a tocar após 3 segundos, ou seja, após a música reload.mp3 tocar.
             }, 100); // Este intervalo está fazendo a rotação da carta a cada 100 milissegundos, o que causa o efeito de giro.
         }, 2000); // Aqui, após a escolha da carta, a carta some da tela (display: none) e um outro contêiner (provavelmente para mostrar o resultado) é exibido (display: flex).
     }, 2000); // Aqui, a rotação da carta é interrompida e o som de rotação é pausado e resetado.
@@ -237,12 +230,23 @@ function play(index) {
     }, 1000);
 }
 
+let musicToggle = document.getElementById("music-toggle");
+let music = document.getElementById("music");
+
+music.pause();
+
+musicToggle.addEventListener("change", function() {
+    if (musicToggle.checked) {
+        music.play(); 
+    } else {
+        music.pause(); 
+    }
+});
+
 function resetGame() {
-    // Defina a URL do gamemode
     const gamemode = 'gamemodes.html';
-    
-    // Aguarde 3000 milissegundos (3 segundos) antes de redirecionar
+
     setTimeout(() => {
         window.location.href = gamemode;
-    }, 3000); // Atraso de 3 segundos
+    }, 3000);
 }

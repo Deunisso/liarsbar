@@ -1,6 +1,6 @@
 function playAudio(button) {
     let audio;
-    const buttons = document.querySelectorAll('.button'); 
+    const buttons = document.querySelectorAll('.button');
 
     buttons.forEach(btn => {
         if (btn.id !== button) {
@@ -13,7 +13,7 @@ function playAudio(button) {
         audio.play();
         setTimeout(() => {
             window.location.href = 'game.html';
-        }, audio.duration * 1000); 
+        }, audio.duration * 1000);
     } else if (button === 'devil') {
         audio = document.getElementById('audio-devil');
         audio.play();

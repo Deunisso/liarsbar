@@ -14,8 +14,6 @@ function selectPlayer(element, player) {
         element.classList.remove("selected");
     } else if (selectedPlayers.length < 4) {
         selectSound.play();
-        selectSound.onended = function () {
-        };
         selectedPlayers.push(convertedPlayer);
         element.classList.add("selected");
     }
@@ -34,6 +32,14 @@ function convertName(name) {
 }
 
 function startGame() {
-    localStorage.setItem("players", JSON.stringify(selectedPlayers));
-    window.location.href = 'gamemodes.html';
+    // Tocar o áudio de início
+    let clickAudio = new Audio("./audios/click.mp3");
+    clickAudio.currentTime = 0;  // Garantir que o áudio comece do início
+    clickAudio.play();
+
+    // Após o áudio terminar, redirecionar para a página do jogo
+    clickAudio.onended = function () {
+        localStorage.setItem("players", JSON.stringify(selectedPlayers));
+        window.location.href = 'gamemodes.html';
+    };
 }

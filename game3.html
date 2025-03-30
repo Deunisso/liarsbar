@@ -11,6 +11,13 @@
 </head>
 
 <body>
+    <div id="music-toggle-container">
+        <label class="switch">
+            <input type="checkbox" id="music-toggle">
+            <span class="slider"></span>
+        </label>
+    </div>
+
     <div id="card-name-container"></div>
 
     <div class="card-container" id="round-card" onclick="spinCard()">
@@ -39,6 +46,7 @@
     <audio id="surviveSound" src="./audios/surviveSound.mp3" preload="auto"></audio>
     <audio id="reload" src="./audios/reload.mp3" preload="auto"></audio>
     <audio id="start" src="./audios/start.mp3" preload="auto"></audio>
+    <audio id="music" src="./audios/music3.mp3" preload="auto" loop></audio>
 
     <script src="./script/game3.js"></script>
 </body>
