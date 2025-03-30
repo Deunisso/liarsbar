@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     introScreen.id = "intro-screen";
     introScreen.innerHTML = `
         <div class="intro-content">
-            <p>DEVIL</p><br>
+            <img src="./images/devil.png" alt="Devil" class="devil-intro-image"><br>
             <p>Deck Contains</p>
             <p>6x Ace's</p>
             <p>6x King's</p>

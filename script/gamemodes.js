@@ -28,3 +28,9 @@ function playAudio(button) {
         }, audio.duration * 1000);
     }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll('.button').forEach(btn => {
+        btn.classList.remove('disabled');
+    });
+});

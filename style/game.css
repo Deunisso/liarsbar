@@ -10,6 +10,13 @@ body {
     color: white;
 }
 
+.basic-intro-image,
+.devil-intro-image,
+.chaos-intro-image {
+    width: 300px;
+    height: auto;
+}
+
 .card-container {
     position: fixed;
     top: 50%;
