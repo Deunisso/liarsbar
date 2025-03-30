@@ -69,8 +69,12 @@ function spinCard() {
 
     shuffleCards(); // Chama a função para embaralhar as cartas
 
+    // Inicializa as imagens das cartas
+    let currentCards = [cardImages[0], cardImages[1], cardImages[2]];
+
     let interval = setInterval(() => {
-        cardImage.src = cardImages[index % cardImages.length];
+        // Exibe as 3 cartas alternando entre elas
+        cardImage.src = currentCards[index % currentCards.length];
         cardElement.style.transform = `translate(-50%, -50%) rotateY(${index * 60}deg)`;
         index++;
     }, 100);
@@ -80,8 +84,8 @@ function spinCard() {
         cardSpinSound.pause();
         cardSpinSound.currentTime = 0;
 
-        // Sorteia uma carta aleatória
-        currentCard = cardImages[Math.floor(Math.random() * cardImages.length)];
+        // Sorteia uma carta aleatória entre as 3
+        currentCard = currentCards[Math.floor(Math.random() * currentCards.length)];
         cardImage.src = currentCard;
         cardElement.style.transform = "translate(-50%, -50%) rotateY(0deg)"; // Para a rotação no final
 
