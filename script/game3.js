@@ -111,7 +111,7 @@ function spinCard() {
 
     shuffleCards();
 
-    let currentCards = [cardImages[0], cardImages[1], cardImages[2],];
+    let currentCards = [cardImages[0], cardImages[1]];
 
     let interval = setInterval(() => {
         cardImage.src = currentCards[index % currentCards.length];
