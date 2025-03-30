@@ -1,9 +1,23 @@
+function saveScores() {
+    localStorage.setItem("scores", JSON.stringify(scores));
+}
+
 document.addEventListener("DOMContentLoaded", function () {
-    // Inicializa o áudio para tocar logo no início
     let startAudio = new Audio("./audios/start.mp3");
     startAudio.play();
 
-    // Criação da tela de introdução
+    let savedScores = JSON.parse(localStorage.getItem("scores"));
+    if (savedScores) {
+        scores = savedScores; 
+    }
+
+    shufflePlayers();
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    let startAudio = new Audio("./audios/start.mp3");
+    startAudio.play();
+
     let introScreen = document.createElement("div");
     introScreen.id = "intro-screen";
     introScreen.innerHTML = `
@@ -221,7 +235,7 @@ function play(index) {
                             scores[i]++;
                         }
                     });
-
+                    saveScores();
                     resetGame();
                 }, 3000);
             }

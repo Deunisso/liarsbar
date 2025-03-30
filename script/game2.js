@@ -4,6 +4,22 @@ function checkMorte(index) {
     morte = attempts[index] >= 6 || Math.random() < 1 / 6;
 }
 
+function saveScores() {
+    localStorage.setItem("scores", JSON.stringify(scores));
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    let startAudio = new Audio("./audios/start.mp3");
+    startAudio.play();
+
+    let savedScores = JSON.parse(localStorage.getItem("scores"));
+    if (savedScores) {
+        scores = savedScores; 
+    }
+
+    shufflePlayers();
+});
+
 document.addEventListener("DOMContentLoaded", function () {
     let startAudio = new Audio("./audios/start.mp3");
     startAudio.play();
@@ -223,7 +239,7 @@ function play(index) {
                             scores[i]++;
                         }
                     });
-
+                    saveScores();
                     resetGame();
                 }, 3000);
             }
@@ -353,6 +369,7 @@ function playDevil(indices) {
                             scores[i]++;
                         }
                     });
+                    saveScores();
                     resetGame();
                 }, 3000);
                 return;

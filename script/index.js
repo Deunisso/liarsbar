@@ -32,14 +32,16 @@ function convertName(name) {
 }
 
 function startGame() {
-    // Tocar o áudio de início
     let clickAudio = new Audio("./audios/click.mp3");
-    clickAudio.currentTime = 0;  // Garantir que o áudio comece do início
+    clickAudio.currentTime = 0;  
     clickAudio.play();
 
-    // Após o áudio terminar, redirecionar para a página do jogo
     clickAudio.onended = function () {
+        localStorage.removeItem("scores");  
+        let resetScores = [0, 0, 0, 0]; 
+        localStorage.setItem("scores", JSON.stringify(resetScores)); 
         localStorage.setItem("players", JSON.stringify(selectedPlayers));
+
         window.location.href = 'gamemodes.html';
     };
 }
