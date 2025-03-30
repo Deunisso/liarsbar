@@ -38,6 +38,143 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 3000);
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    let chaosButton = document.getElementById("chaosButton");
+    if (chaosButton) {
+        chaosButton.onclick = openChaosModal;
+    }
+});
+
+let selectedPlayers = [];
+
+function initializeSelectedPlayers() {
+    selectedPlayers = players.map((alive, index) => alive ? index : -1).filter(index => index !== -1);
+
+    selectedPlayers.forEach(index => {
+        const button = document.getElementById(`player-btn-${index}`);
+        if (button) {
+            button.classList.add("selected");
+        }
+    });
+}
+
+function togglePlayerSelection(index) {
+    const button = document.getElementById(`player-btn-${index}`);
+
+    if (players[index]) {
+        if (selectedPlayers.includes(index)) {
+            selectedPlayers = selectedPlayers.filter(i => i !== index);
+            button.classList.remove("selected");
+        } else {
+            selectedPlayers.push(index);
+            button.classList.add("selected");
+        }
+    }
+}
+
+function openChaosModal() {
+    let modal = document.createElement("div");
+    modal.id = "chaos-modal";
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h2>Selecione os jogadores para CHAOS</h2>
+            <div id="player-selection">
+                ${playerNames.map((name, i) => `
+                    <div id="player-btn-${i}" class="player-button" onclick="togglePlayerSelection(${i})">${name}</div>
+                `).join('')}
+            </div>
+            <div class="execute-container">
+                <div class="player-button execute" onclick="executeChaos()">Executar</div>
+                <div class="player-button cancel" onclick="closeChaosModal()">Cancelar</div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
+
+    initializeSelectedPlayers();
+}
+
+function executeChaos() {
+    playChaos(selectedPlayers);
+    closeChaosModal();
+}
+
+function closeChaosModal() {
+    let modal = document.getElementById("chaos-modal");
+    if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.remove();
+        }, 300); // 
+    }
+}
+
+function playChaos(indices) {
+    if (indices.length === 0) return;
+
+    function playSequential(index, delay) {
+        setTimeout(() => {
+            if (!players[index] || attempts[index] >= 6) return;  // Acesso à variável global attempts
+
+            let button = document.getElementById(`p${index + 1}`);
+            let icon = document.getElementById(`i${index + 1}`);
+            let gunShot = document.getElementById("gunShot");
+            let surviveSound = document.getElementById("surviveSound");
+
+            let alivePlayers = players.filter(p => p).length;
+
+            if (alivePlayers === 1) {
+                return;
+            }
+
+            attempts[index]++;  // Modificando a variável global attempts
+            icon.src = `images/vida${attempts[index]}.png`;
+
+            let morte = attempts[index] >= 6 || Math.random() < 1 / 6;
+
+            if (morte) {
+                gunShot.play();
+                button.classList.add("dead");
+                players[index] = false;
+                icon.src = "images/morto.gif";
+                let ouch = new Audio("./audios/ouch.mp3");
+
+                setTimeout(() => {
+                    if (ouch) {
+                        ouch.play();
+                    }
+                }, 500);
+            } else {
+                surviveSound.play();
+            }
+
+            if (players.filter(p => p).length === 1) {
+                setTimeout(() => {
+                    winSound.play();
+                    players.forEach((alive, i) => {
+                        if (alive) {
+                            scores[i]++;
+                        }
+                    });
+                    resetGame();
+                }, 3000);
+                return;
+            }
+
+        }, delay);
+    }
+
+    indices.forEach((index, i) => {
+        playSequential(index, i * 1000);
+    });
+
+    isPlaying = false;
+}
+
 let players = [true, true, true, true];
 let attempts = [0, 0, 0, 0];
 let isPlaying = false;
@@ -45,7 +182,7 @@ let cardImages = ['images/q.png', 'images/k.png',];
 let cardNames = {
     'images/q.png': `<span class="queen">QUEEN'S</span> <span>TABLE</span>`,
     'images/k.png': `<span class="king">KING'S</span> <span>TABLE</span>`,
-    };
+};
 let currentCard = '';
 let scores = [0, 0, 0, 0];
 let playerNames = ["Danilo", "Denilson", "Kauã", "Kaique"];
@@ -165,12 +302,8 @@ function play(index) {
 
     clickSound.play();
 
-    function normalizeName(name) {
-        return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    }
-
     setTimeout(() => {
-        attempts[index]++;
+        attempts[index]++;  // Modificando a variável global attempts
         icon.src = `images/vida${attempts[index]}.png`;
 
         let morte = attempts[index] >= 6 || Math.random() < 1 / 6;
@@ -180,6 +313,10 @@ function play(index) {
             button.classList.add("dead");
             players[index] = false;
             icon.src = "images/morto.gif";
+
+            function normalizeName(name) {
+                return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            }
 
             let normalizedPlayerName = normalizeName(playerNames[index]);
             let deathAudio = document.getElementById(`audio${normalizedPlayerName}`);
@@ -200,7 +337,7 @@ function play(index) {
         }
 
         setTimeout(() => {
-            if (players.filter(p => p).length === 1) {
+            if (players.filter(p => p).length <= 1) {
                 setTimeout(() => {
                     winSound.play();
                 }, 2000);
@@ -349,6 +486,121 @@ function resetGame() {
 
                 playSequence(0);
             }
-        }, 8000);
+        }, 8000); 
     };
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    let masterButton = document.getElementById("masterButton");
+    if (masterButton) {
+        masterButton.onclick = openMasterModal;
+    }
+});
+
+function openMasterModal() {
+    let modal = document.createElement("div");
+    modal.id = "master-modal";
+    
+    // Filtra os jogadores vivos para mostrar no select
+    let alivePlayers = players.map((alive, i) => alive ? i : -1).filter(i => i !== -1);
+
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h2>Selecione o jogador ATIRADOR e o jogador ALVO</h2>
+            <div id="player-selection">
+                <label for="shooter">Atirador:</label>
+                <select id="shooter">
+                    ${alivePlayers.map(index => `<option value="${index}">${playerNames[index]}</option>`).join('')}
+                </select>
+                <select id="target">
+                    ${alivePlayers.map(index => `<option value="${index}">${playerNames[index]}</option>`).join('')}
+                </select>
+            </div>
+            <div class="execute-container">
+                <div class="player-button execute" onclick="executeMaster()">Executar</div>
+                <div class="player-button cancel" onclick="closeMasterModal()">Cancelar</div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
+}
+
+function closeMasterModal() {
+    let modal = document.getElementById("master-modal");
+    if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.remove();
+        }, 300);
+    }
+}
+
+function executeMaster() {
+    let shooterIndex = parseInt(document.getElementById("shooter").value);
+    let targetIndex = parseInt(document.getElementById("target").value);
+
+    // Verifica se o atirador e o alvo são diferentes e estão vivos
+    if (players[shooterIndex] && players[targetIndex] && shooterIndex !== targetIndex) {
+        playMaster(shooterIndex, targetIndex);
+    } else {
+        // Alerta ou ação caso o atirador ou alvo sejam inválidos
+        alert("Seleção inválida. O atirador e o alvo devem ser diferentes e ambos vivos.");
+    }
+
+    closeMasterModal();
+}
+
+function playMaster(shooterIndex, targetIndex) {
+    // Verifica se o atirador ou o alvo estão mortos, ou se a munição do atirador acabou
+    if (!players[shooterIndex] || !players[targetIndex] || attempts[shooterIndex] >= 6 || shooterIndex === targetIndex) return;
+
+    let shooterButton = document.getElementById(`p${shooterIndex + 1}`);
+    let targetButton = document.getElementById(`p${targetIndex + 1}`);
+    let shooterIcon = document.getElementById(`i${shooterIndex + 1}`);
+    let targetIcon = document.getElementById(`i${targetIndex + 1}`);
+    let gunShot = document.getElementById("gunShot");
+    let surviveSound = document.getElementById("surviveSound");
+
+    // Incrementa a tentativa do atirador
+    attempts[shooterIndex]++;
+    shooterIcon.src = `images/vida${attempts[shooterIndex]}.png`;
+
+    // Chance de matar o alvo
+    let killChance = Math.random() < 1 / 6;
+
+    if (killChance) {
+        gunShot.play();
+        players[targetIndex] = false;
+        targetIcon.src = "images/morto.gif";
+        targetButton.classList.add("dead");
+
+        // Resetando a munição do atirador se ele matar o alvo
+        attempts[shooterIndex] = 0;
+        shooterIcon.src = `images/vida0.png`;
+
+        setTimeout(() => {
+            let ouch = new Audio("./audios/ouch.mp3");
+            ouch.play();
+        }, 500);
+    } else {
+        surviveSound.play();
+    }
+
+    // Checa se existe apenas um jogador vivo
+    if (players.filter(p => p).length === 1) {
+        setTimeout(() => {
+            winSound.play();
+            players.forEach((alive, i) => {
+                if (alive) {
+                    scores[i]++;
+                }
+            });
+            resetGame();
+        }, 3000);
+    }
 }

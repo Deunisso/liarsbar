@@ -207,91 +207,218 @@ body {
     background-color: darkviolet;
 }
 
-#select-modal {
+/* Modal overlay */
+#chaos-modal {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease-in-out;
 }
 
+/* Show the modal */
+#chaos-modal.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Modal Content */
 .modal-content {
-    background-color: #1f1f1f;
-    padding: 20px;
-    border-radius: 10px;
-    width: 350px;
-    text-align: center;
-    color: white;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
-}
-
-.modal-content h2 {
-    margin-bottom: 20px;
-    font-size: 22px;
-    font-family: 'Arial', sans-serif;
-    color: #FF5722;
-}
-
-.player-list {
-    margin-bottom: 20px;
-}
-
-.player-option {
-    background-color: #333;
-    color: #FFF;
-    padding: 12px;
-    margin: 8px 0;
-    border: none;
+    background-color: #fff;
+    padding: 30px;
     border-radius: 8px;
-    cursor: pointer;
-    width: 100%;
-    font-size: 18px;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    width: 480px; /* Mantendo o tamanho */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    position: relative;
+    animation: fadeIn 0.5s ease;
+    transition: transform 0.3s ease; /* Efeito de movimento suave */
 }
 
-.player-option:hover {
-    background-color: #555;
+/* Adicionando um efeito de escalonamento suave */
+.modal-content:hover {
+    transform: scale(1.03); /* Aumentando levemente o tamanho ao passar o mouse */
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Modal Heading */
+.modal-content h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Player buttons container (usando grid para 2 colunas) */
+#player-selection {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 80px;
+}
+
+/* Player buttons */
+.player-button {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Hover effect for player buttons */
+.player-button:hover {
+    background-color: #0056b3;
     transform: scale(1.05);
 }
 
-.player-option.selected {
-    background-color: #FF5722;
+/* Active player button (when selected) */
+.player-button.selected {
+    background-color: #ffc107;
     transform: scale(1.1);
-    color: #000;
 }
 
-.space {
-    height: 15px;
+/* Execute and Cancel button container */
+.execute-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
 }
 
-#confirm-selection,
-#close-modal {
+/* Styling for execute button */
+.player-button.execute {
+    background-color: #28a745;
+    width: 45%;
+}
+
+.player-button.execute:hover {
+    background-color: #218838;
+}
+
+/* Styling for cancel button */
+.player-button.cancel {
+    background-color: #dc3545;
+    width: 45%;
+}
+
+.player-button.cancel:hover {
+    background-color: #c82333;
+}
+
+/* Modal close transition */
+#chaos-modal.close {
+    visibility: hidden;
+    opacity: 0;
+}
+
+#master-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#master-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    width: 480px; /* Tamanho fixo */
+    min-height: 300px; /* Garantindo uma altura mínima */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: fadeIn 0.5s ease;
+    transition: transform 0.3s ease; /* Efeito de movimento suave */
+    overflow-y: auto; /* Caso o conteúdo seja maior, haverá rolagem */
+}
+
+#master-selection select {
     margin: 10px 0;
-    padding: 12px;
-    border: none;
-    background-color: #FF5722;
+    padding: 5px;
+    width: 100%;
+}
+
+.execute-container .player-button {
+    display: inline-block;
+    margin: 10px 5px;
+    padding: 10px;
+    background-color: #4CAF50;
     color: white;
     cursor: pointer;
-    width: 100%;
-    font-size: 18px;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
 }
 
-#confirm-selection:hover,
-#close-modal:hover {
-    background-color: #e64a19;
-}
-
-#close-modal {
+.cancel {
     background-color: #f44336;
 }
 
-#close-modal:hover {
-    background-color: #d32f2f;
+/* Estilos gerais do Select */
+select {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Efeito de foco: quando o select é clicado */
+select:focus {
+    background-color: #e0f7fa;
+    /* Light blue when selected */
+    border-color: #4CAF50;
+    /* Green border on focus */
+    outline: none;
+    /* Remove the default outline */
+}
+
+/* Estilo para a opção selecionada */
+option {
+    padding: 10px;
+    background-color: white;
+    color: #333;
+}
+
+/* Efeito hover nas opções */
+select option:hover {
+    background-color: #4CAF50;
+    color: white;
 }

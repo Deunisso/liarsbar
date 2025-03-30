@@ -23,7 +23,6 @@ body {
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    /* Garantir que o carrossel ocupe a largura total */
 }
 
 .player-card {
@@ -36,9 +35,7 @@ body {
     position: relative;
     transition: transform 0.3s ease, filter 0.3s ease;
     border-radius: 10px;
-    /* Adiciona border-radius no próprio card */
     overflow: hidden;
-    /* Para garantir que a borda arredondada não corte o conteúdo */
 }
 
 .player-card img {
@@ -87,7 +84,7 @@ body {
 
 @media (max-width: 768px) {
     .player-card {
-        width: 180px;
+        width: 250px;
     }
 
     #start-game {

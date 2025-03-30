@@ -45,13 +45,8 @@ function convertName(name) {
 }
 
 function startGame() {
-    // Embaralha os jogadores e salva a seleção
     localStorage.setItem("players", JSON.stringify(selectedPlayers));
-    
-    // Sorteia aleatoriamente entre game.html, game2.html ou game3.html
-    const pages = ['game.html', 'game2.html', 'game3.html'];
-    const randomPage = pages[Math.floor(Math.random() * pages.length)];
-    
-    // Redireciona para a página sorteada
-    window.location.href = randomPage;
+ 
+    const page = 'gamemodes.html';
+    window.location.href = page;
 }
