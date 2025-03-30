@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liar's Bar</title>
+    <script src="./script/loading.js"></script>
+    <link rel="icon" type="image/png" href="images/icon.png" />
+    <link rel="stylesheet" href="./style/game.css">
+    <link rel="stylesheet" href="./style/loading.css">
+</head>
+
+<body>
+    <div id="loading-spinner">
+        <img src="images/loading.gif" alt="Carregando...">
+    </div>
+
+    <div id="card-name-container"></div>
+
+    <div class="card-container" id="round-card" onclick="spinCard()">
+        <img id="card-image" src="images/back3.png" alt="Carta">
+    </div>
+
+    <div class="container" id="players-container"></div>
+
+    <div class="buttons-container">
+        <button id="chaosButton" class="action-button chaos">CHAOS</button>
+        <button id="masterButton" class="action-button master">MASTER</button>
+    </div>
+
+    <audio id="audioDanilo" src="./audios/Danilo.mp3" preload="auto"></audio>
+    <audio id="audioDenilson" src="./audios/Denilson.mp3" preload="auto"></audio>
+    <audio id="audioKaique" src="./audios/Kaique.mp3" preload="auto"></audio>
+    <audio id="audioKaua" src="./audios/Kaua.mp3" preload="auto"></audio>
+    <audio id="audioLeticia" src="./audios/Leticia.mp3" preload="auto"></audio>
+    <audio id="audioRegina" src="./audios/Regina.mp3" preload="auto"></audio>
+    <audio id="audioTayara" src="./audios/Tayara.mp3" preload="auto"></audio>
+
+    <audio id="cardSpinSound" src="./audios/spin.mp3" preload="auto"></audio>
+    <audio id="clickSound" src="./audios/clickSound.mp3" preload="auto"></audio>
+    <audio id="gunShot" src="./audios/gunShot.mp3" preload="auto"></audio>
+    <audio id="winSound" src="./audios/winSound.mp3" preload="auto"></audio>
+    <audio id="drawSound" src="./audios/drawSound.mp3" preload="auto"></audio>
+    <audio id="surviveSound" src="./audios/surviveSound.mp3" preload="auto"></audio>
+    <audio id="reload" src="./audios/reload.mp3" preload="auto"></audio>
+    <audio id="start" src="./audios/start.mp3" preload="auto"></audio>
+    <audio id="click" src="./audios/click.mp3" preload="auto"></audio>
+
+    <script>
+
+    </script>
+    
+    <script src="./script/game3.js"></script>
+</body>
+
+</html>

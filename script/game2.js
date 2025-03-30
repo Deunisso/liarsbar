@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     introScreen.id = "intro-screen";
     introScreen.innerHTML = `
         <div class="intro-content">
-            <p>BASIC</p><br>
+            <p>DEVIL</p><br>
             <p>Deck Contains</p>
             <p>6x Ace's</p>
             <p>6x King's</p>
@@ -47,11 +47,11 @@ document.addEventListener("DOMContentLoaded", function () {
 let players = [true, true, true, true];
 let attempts = [0, 0, 0, 0];
 let isPlaying = false;
-let cardImages = ['images/q.png', 'images/k.png', 'images/a.png',];
+let cardImages = ['images/q2.png', 'images/k2.png', 'images/a2.png',];
 let cardNames = {
-    'images/q.png': `<span class="queen">QUEEN'S</span> <span>TABLE</span>`,
-    'images/k.png': `<span class="king">KING'S</span> <span>TABLE</span>`,
-    'images/a.png': `<span class="ace">ACE'S</span> <span>TABLE</span>`,
+    'images/q2.png': `<span class="queen">QUEEN'S</span> <span>TABLE ❤️</span>`,
+    'images/k2.png': `<span class="king">KING'S</span> <span>TABLE ❤️</span>`,
+    'images/a2.png': `<span class="ace">ACE'S</span> <span>TABLE ❤️</span>`,
 };
 let currentCard = '';
 let scores = [0, 0, 0, 0];  
@@ -127,16 +127,16 @@ function spinCard() {
         cardImage.src = currentCard;
         cardElement.style.transform = "translate(-50%, -50%) rotateY(0deg)"; 
 
-        if (currentCard.includes("a.png")) {
+        if (currentCard.includes("a2.png")) {
             audioA.currentTime = 0;
             audioA.play();
-        } else if (currentCard.includes("k.png")) {
+        } else if (currentCard.includes("k2.png")) {
             audioK.currentTime = 0;
             audioK.play();
-        } else if (currentCard.includes("q.png")) {
+        } else if (currentCard.includes("q2.png")) {
             audioQ.currentTime = 0;
             audioQ.play();
-        } 
+        }
     
         setTimeout(() => {
             cardElement.style.display = 'none';
@@ -234,7 +234,7 @@ function resetGame() {
     introScreen.id = "intro-screen";
     introScreen.innerHTML = `
         <div class="intro-content">
-            <p>BASIC</p>
+            <p>DEVIL</p><br>
             <p>Deck Contains</p>
             <p>6x Ace's</p>
             <p>6x King's</p>

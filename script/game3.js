@@ -1,60 +1,59 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Criação da tela de introdução
     let introScreen = document.createElement("div");
     introScreen.id = "intro-screen";
     introScreen.innerHTML = `
         <div class="intro-content">
-            <p>BASIC</p><br>
+            <p>CHAOS</p><br>
             <p>Deck Contains</p>
-            <p>6x Ace's</p>
-            <p>6x King's</p>
-            <p>6x Queen's</p>
-            <p>2x Joker's</p>
+            <p>5x King's</p>
+            <p>5x Queen's</p>
+            <p>1x Chaos (10)</p>
+            <p>1x Master (A)</p>
         </div>
     `;
     document.body.appendChild(introScreen);
 
-    // Referências aos elementos da tela de jogo e carta
     let gameContainer = document.getElementById("game-container");
-    let roundCard = document.getElementById("round-card"); 
+    let roundCard = document.getElementById("round-card");
 
-    // Esconde a tela do jogo e a carta inicialmente
     if (gameContainer) gameContainer.style.display = "none";
     if (roundCard) {
-        roundCard.style.opacity = "0"; // Inicialmente a carta está invisível
-        roundCard.style.visibility = "hidden"; // A carta não é interativa
+        roundCard.style.opacity = "0";
+        roundCard.style.visibility = "hidden"; 
     }
 
-    // Após 2 segundos, remove a tela de introdução e exibe a carta
     setTimeout(() => {
-        introScreen.style.opacity = "0"; // Apaga a tela de introdução
+        introScreen.style.opacity = "0";
         setTimeout(() => {
-            introScreen.remove(); // Remove a tela de introdução do DOM
+            introScreen.remove(); 
 
-            // Exibe o conteúdo do jogo
             if (gameContainer) gameContainer.style.display = "block";
 
-            // Torna a carta visível e interativa
             if (roundCard) {
-                roundCard.style.opacity = "1"; // Torna a carta visível
-                roundCard.style.visibility = "visible"; // Torna a carta interativa
+                roundCard.style.opacity = "1";
+                roundCard.style.visibility = "visible"; 
                 click.play();
             }
-        }, 500); // Aguarda meio segundo para remover a tela
-    }, 3000); // Aguardar 2 segundos antes de exibir a carta
+        }, 500);
+    }, 3000);
+});
+
+document.getElementById("chaosButton").addEventListener("click", function () {
+});
+
+document.getElementById("masterButton").addEventListener("click", function () {
 });
 
 let players = [true, true, true, true];
 let attempts = [0, 0, 0, 0];
 let isPlaying = false;
-let cardImages = ['images/q.png', 'images/k.png', 'images/a.png',];
+let cardImages = ['images/q.png', 'images/k.png',];
 let cardNames = {
     'images/q.png': `<span class="queen">QUEEN'S</span> <span>TABLE</span>`,
     'images/k.png': `<span class="king">KING'S</span> <span>TABLE</span>`,
-    'images/a.png': `<span class="ace">ACE'S</span> <span>TABLE</span>`,
 };
 let currentCard = '';
-let scores = [0, 0, 0, 0];  
+let scores = [0, 0, 0, 0];
 let playerNames = ["Danilo", "Denilson", "Kauã", "Kaique"];
 
 function shufflePlayers() {
@@ -82,14 +81,13 @@ function shufflePlayers() {
 
 let hasSpun = false;
 
-let audioA = new Audio("./audios/audioA.mp3");
 let audioK = new Audio("./audios/audioK.mp3");
 let audioQ = new Audio("./audios/audioQ.mp3");
 
 function shuffleCards() {
     for (let i = cardImages.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [cardImages[i], cardImages[j]] = [cardImages[j], cardImages[i]]; 
+        [cardImages[i], cardImages[j]] = [cardImages[j], cardImages[i]];
     }
 }
 
@@ -101,7 +99,6 @@ function spinCard() {
     let cardImage = document.getElementById("card-image");
     let cardSpinSound = document.getElementById("cardSpinSound");
     let hiddenContainer = document.querySelector(".container");
-    let audioA = new Audio("./audios/audioA.mp3");
     let audioK = new Audio("./audios/audioK.mp3");
     let audioQ = new Audio("./audios/audioQ.mp3");
     let index = 0;
@@ -110,7 +107,7 @@ function spinCard() {
 
     shuffleCards();
 
-    let currentCards = [cardImages[0], cardImages[1], cardImages[2],];
+    let currentCards = [cardImages[0], cardImages[1]];
 
     let interval = setInterval(() => {
         cardImage.src = currentCards[index % currentCards.length];
@@ -125,19 +122,16 @@ function spinCard() {
 
         currentCard = currentCards[Math.floor(Math.random() * currentCards.length)];
         cardImage.src = currentCard;
-        cardElement.style.transform = "translate(-50%, -50%) rotateY(0deg)"; 
+        cardElement.style.transform = "translate(-50%, -50%) rotateY(0deg)";
 
-        if (currentCard.includes("a.png")) {
-            audioA.currentTime = 0;
-            audioA.play();
-        } else if (currentCard.includes("k.png")) {
+        if (currentCard.includes("k.png")) {
             audioK.currentTime = 0;
             audioK.play();
         } else if (currentCard.includes("q.png")) {
             audioQ.currentTime = 0;
             audioQ.play();
-        } 
-    
+        }
+
         setTimeout(() => {
             cardElement.style.display = 'none';
             hiddenContainer.style.display = "flex";
@@ -145,11 +139,13 @@ function spinCard() {
             setTimeout(() => {
                 let cardName = cardNames[currentCard];
                 let cardNameContainer = document.getElementById("card-name-container");
+                let buttonsContainer = document.querySelector(".buttons-container");
                 cardNameContainer.innerHTML = cardName;
 
                 cardNameContainer.classList.add("show");
-
                 hiddenContainer.classList.add("show");
+                buttonsContainer.classList.add("show");
+
                 start.play();
                 reload.play();
             }, 100);
@@ -211,7 +207,7 @@ function play(index) {
             if (players.filter(p => p).length === 1) {
                 setTimeout(() => {
                     winSound.play();
-                }, 2000); 
+                }, 2000);
 
                 setTimeout(() => {
                     players.forEach((alive, i) => {
@@ -229,49 +225,51 @@ function play(index) {
 }
 
 function resetGame() {
-    // Criação da tela de introdução
+    let buttonsContainer = document.querySelector(".buttons-container");
+    if (buttonsContainer) buttonsContainer.classList.remove("show");
+    
     let introScreen = document.createElement("div");
     introScreen.id = "intro-screen";
     introScreen.innerHTML = `
         <div class="intro-content">
-            <p>BASIC</p>
+            <p>CHAOS</p><br>
             <p>Deck Contains</p>
-            <p>6x Ace's</p>
-            <p>6x King's</p>
-            <p>6x Queen's</p>
-            <p>2x Joker's</p>
+            <p>5x King's</p>
+            <p>5x Queen's</p>
+            <p>1x Chaos (10)</p>
+            <p>1x Master (A)</p>
         </div>
     `;
     document.body.appendChild(introScreen);
 
-    // Referências aos elementos da tela de jogo e carta
     let gameContainer = document.getElementById("game-container");
-    let roundCard = document.getElementById("round-card"); 
+    let roundCard = document.getElementById("round-card");
 
-    // Esconde a tela do jogo e a carta inicialmente
     if (gameContainer) gameContainer.style.display = "none";
     if (roundCard) {
-        roundCard.style.opacity = "0"; // Inicialmente a carta está invisível
-        roundCard.style.visibility = "hidden"; // A carta não é interativa
+        roundCard.style.opacity = "0"; 
+        roundCard.style.visibility = "hidden";
     }
 
-    // Após 2 segundos, remove a tela de introdução e exibe a carta
     setTimeout(() => {
-        introScreen.style.opacity = "0"; // Apaga a tela de introdução
+        introScreen.style.opacity = "0";
         setTimeout(() => {
-            introScreen.remove(); // Remove a tela de introdução do DOM
+            introScreen.remove();
 
-            // Exibe o conteúdo do jogo
             if (gameContainer) gameContainer.style.display = "block";
 
-            // Torna a carta visível e interativa
             if (roundCard) {
-                roundCard.style.opacity = "1"; // Torna a carta visível
-                roundCard.style.visibility = "visible"; // Torna a carta interativa
+                roundCard.style.opacity = "1";
+                roundCard.style.visibility = "visible";
                 click.play();
             }
-        }, 500); // Aguarda meio segundo para remover a tela
-    }, 2000); // Aguardar 2 segundos antes de exibir a carta
+
+            let cardNameContainer = document.getElementById("card-name-container");
+            let playersContainer = document.getElementById("players-container");
+            if (cardNameContainer) cardNameContainer.style.display = "block";
+            if (playersContainer) playersContainer.style.display = "block";
+        }, 500);
+    }, 2000);
 
     players = [true, true, true, true];
     attempts = [0, 0, 0, 0];
@@ -293,73 +291,68 @@ function resetGame() {
         `;
     });
 
-    let cardElement = document.getElementById("round-card");
-    let cardImage = document.getElementById("card-image");
-    cardImage.src = 'images/back.png';
-    cardElement.style.display = 'flex';
+let cardElement = document.getElementById("round-card");
+let cardImage = document.getElementById("card-image");
+cardImage.src = 'images/back.png';
+cardElement.style.display = 'flex';
 
-    let hiddenContainer = document.querySelector(".container");
-    hiddenContainer.style.display = "none";
-    hiddenContainer.classList.remove("show");
+let hiddenContainer = document.querySelector(".container");
+hiddenContainer.style.display = "none";
+hiddenContainer.classList.remove("show");
 
-    let cardNameContainer = document.getElementById("card-name-container");
-    cardNameContainer.classList.remove("show"); 
+let cardNameContainer = document.getElementById("card-name-container");
+cardNameContainer.classList.remove("show");
 
-    let reload = document.getElementById("reload");
-    let start = document.getElementById("start");
-    reload.currentTime = 0;
-    start.currentTime = 0;
+let reload = document.getElementById("reload");
+let start = document.getElementById("start");
+reload.currentTime = 0;
+start.currentTime = 0;
 
-    cardElement.onclick = function () {
-        spinCard();
+cardElement.onclick = function () {
+    spinCard();
 
-        setTimeout(() => {
-            let maxScore = Math.max(...scores);
-            let leaderIndices = scores.map((score, i) => score === maxScore ? i : -1).filter(i => i !== -1);
+    setTimeout(() => {
+        let maxScore = Math.max(...scores);
+        let leaderIndices = scores.map((score, i) => score === maxScore ? i : -1).filter(i => i !== -1);
 
-            if (leaderIndices.length > 0) {
-                let leaderAudios = leaderIndices.map(index => {
-                    let leaderName = playerNames[index];
-                    let normalizedLeaderName = leaderName.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                    return new Audio(`./audios/${normalizedLeaderName}.mp3`);
-                });
+        if (leaderIndices.length > 0) {
+            let leaderAudios = leaderIndices.map(index => {
+                let leaderName = playerNames[index];
+                let normalizedLeaderName = leaderName.normalize("NFD").replace(/[̀-ͯ]/g, "");
+                return new Audio(`./audios/${normalizedLeaderName}.mp3`);
+            });
 
-                let leaderMessage;
-                if (leaderAudios.length === 1) {
-                    leaderMessage = new Audio("./audios/esta_na_lideranca.mp3");
-                } else {
-                    leaderMessage = new Audio("./audios/estao_na_lideranca.mp3");
-                }
-
-                let audioE = new Audio("./audios/e.mp3");
-
-                function playSequence(index) {
-                    if (index >= leaderAudios.length) {
-                        setTimeout(() => leaderMessage.play(), 250);
-                        return;
-                    }
-
-                    leaderAudios[index].play();
-
-                    if (index === leaderAudios.length - 2 && leaderAudios.length > 1) {
-                        leaderAudios[index].onended = () => {
-                            audioE.play();
-                            audioE.onended = () => {
-                                playSequence(index + 1);
-                            };
-                        };
-                    } else {
-                        leaderAudios[index].onended = () => playSequence(index + 1);
-                    }
-                }
-
-                playSequence(0);
+            let leaderMessage;
+            if (leaderAudios.length === 1) {
+                leaderMessage = new Audio("./audios/esta_na_lideranca.mp3");
+            } else {
+                leaderMessage = new Audio("./audios/estao_na_lideranca.mp3");
             }
-        }, 8000); 
-    };
 
-    // Alternando aleatoriamente entre os modos de jogo
-    const modes = ['game.html', 'game2.html', 'game3.html'];
-    const randomMode = modes[Math.floor(Math.random() * modes.length)];
-    window.location.href = randomMode; // Redireciona para o novo modo de jogo
+            let audioE = new Audio("./audios/e.mp3");
+
+            function playSequence(index) {
+                if (index >= leaderAudios.length) {
+                    setTimeout(() => leaderMessage.play(), 250);
+                    return;
+                }
+
+                leaderAudios[index].play();
+
+                if (index === leaderAudios.length - 2 && leaderAudios.length > 1) {
+                    leaderAudios[index].onended = () => {
+                        audioE.play();
+                        audioE.onended = () => {
+                            playSequence(index + 1);
+                        };
+                    };
+                } else {
+                    leaderAudios[index].onended = () => playSequence(index + 1);
+                }
+            }
+
+            playSequence(0);
+        }
+    }, 8000);
+};
 }
