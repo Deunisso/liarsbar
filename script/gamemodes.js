@@ -1,3 +1,13 @@
+document.addEventListener("DOMContentLoaded", () => {
+    let gamemodesAudio = document.getElementById('gameModesAudio');
+    
+    gamemodesAudio.play();
+
+    document.querySelectorAll('.button').forEach(btn => {
+        btn.classList.remove('disabled');
+    });
+});
+
 function playAudio(button) {
     let audio;
     const buttons = document.querySelectorAll('.button');
