@@ -44,6 +44,14 @@ let audioA = new Audio("./audios/audioA.mp3");
 let audioK = new Audio("./audios/audioK.mp3");
 let audioQ = new Audio("./audios/audioQ.mp3");
 
+function shuffleCards() {
+    // Embaralha as imagens
+    for (let i = cardImages.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cardImages[i], cardImages[j]] = [cardImages[j], cardImages[i]]; // Troca as cartas
+    }
+}
+
 function spinCard() {
     if (hasSpun) return;
     hasSpun = true;
@@ -58,6 +66,8 @@ function spinCard() {
     let index = 0;
 
     cardSpinSound.play();
+
+    shuffleCards(); // Chama a função para embaralhar as cartas
 
     let interval = setInterval(() => {
         cardImage.src = cardImages[index % cardImages.length];
