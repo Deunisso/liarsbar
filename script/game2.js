@@ -53,6 +53,142 @@ let currentCard = '';
 let scores = [0, 0, 0, 0];
 let playerNames = ["Danilo", "Denilson", "Kauã", "Kaique"];
 
+document.addEventListener("DOMContentLoaded", function () {
+    let devilButton = document.getElementById("devilButton");
+    if (devilButton) {
+        devilButton.onclick = openDevilModal;
+    }
+});
+
+let selectedPlayers = [];
+
+function initializeSelectedPlayers() {
+    selectedPlayers = players.map((alive, index) => alive ? index : -1).filter(index => index !== -1);
+
+    selectedPlayers.forEach(index => {
+        const button = document.getElementById(`player-btn-${index}`);
+        if (button) {
+            button.classList.add("selected");
+        }
+    });
+}
+
+function togglePlayerSelection(index) {
+    const button = document.getElementById(`player-btn-${index}`);
+
+    if (players[index]) {
+        if (selectedPlayers.includes(index)) {
+            selectedPlayers = selectedPlayers.filter(i => i !== index);
+            button.classList.remove("selected");
+        } else {
+            selectedPlayers.push(index);
+            button.classList.add("selected");
+        }
+    }
+}
+
+function openDevilModal() {
+    let modal = document.createElement("div");
+    modal.id = "devil-modal";
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div id="player-selection">
+                ${playerNames.map((name, i) => `
+                    <div id="player-btn-${i}" class="player-button" onclick="togglePlayerSelection(${i})">${name}</div>
+                `).join('')}
+            </div>
+            <div class="execute-container">
+                <div class="player-button execute" onclick="executeDevil()">Executar</div>
+                <div class="player-button cancel" onclick="closeDevilModal()">Cancelar</div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
+
+    initializeSelectedPlayers();
+}
+
+function executeDevil() {
+    playDevil(selectedPlayers);
+    closeDevilModal();
+}
+
+function closeDevilModal() {
+    let modal = document.getElementById("devil-modal");
+    if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.remove();
+        }, 300); 
+    }
+}
+
+function playDevil(indices) {
+    if (indices.length === 0) return;
+
+    function playSequential(index, delay) {
+        setTimeout(() => {
+            if (!players[index] || attempts[index] >= 6) return;
+
+            let button = document.getElementById(`p${index + 1}`);
+            let icon = document.getElementById(`i${index + 1}`);
+            let gunShot = document.getElementById("gunShot");
+            let surviveSound = document.getElementById("surviveSound");
+
+            let alivePlayers = players.filter(p => p).length;
+
+            if (alivePlayers === 1) {
+                return;
+            }
+
+            attempts[index]++; 
+            icon.src = `images/vida${attempts[index]}.png`;
+
+            let morte = attempts[index] >= 6 || Math.random() < 1 / 6;
+
+            if (morte) {
+                gunShot.play();
+                button.classList.add("dead");
+                players[index] = false;
+                icon.src = "images/morto.gif";
+                let ouch = new Audio("./audios/ouch.mp3");
+
+                setTimeout(() => {
+                    if (ouch) {
+                        ouch.play();
+                    }
+                }, 500);
+            } else {
+                surviveSound.play();
+            }
+
+            if (players.filter(p => p).length === 1) {
+                setTimeout(() => {
+                    winSound.play();
+                    players.forEach((alive, i) => {
+                        if (alive) {
+                            scores[i]++;
+                        }
+                    });
+                    resetGame();
+                }, 3000);
+                return;
+            }
+
+        }, delay);
+    }
+
+    indices.forEach((index, i) => {
+        playSequential(index, i * 1000);
+    });
+
+    isPlaying = false;
+}
+
 function shufflePlayers() {
     let storedPlayers = JSON.parse(localStorage.getItem("players"));
     if (storedPlayers) {
@@ -142,7 +278,10 @@ function spinCard() {
                 let cardName = cardNames[currentCard];
                 let cardNameContainer = document.getElementById("card-name-container");
                 cardNameContainer.innerHTML = cardName;
-
+                let buttonsContainer = document.querySelector(".buttons-container");
+                if (buttonsContainer) {
+                    buttonsContainer.classList.add("show");
+                }
                 cardNameContainer.classList.add("show");
 
                 hiddenContainer.classList.add("show");

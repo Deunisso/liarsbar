@@ -40,6 +40,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 3000);
 });
 
+
+let players = [true, true, true, true];
+let attempts = [0, 0, 0, 0];
+let isPlaying = false;
+let cardImages = ['images/q.png', 'images/k.png',];
+let cardNames = {
+    'images/q.png': `<span class="queen">QUEEN'S</span> <span>TABLE</span>`,
+    'images/k.png': `<span class="king">KING'S</span> <span>TABLE</span>`,
+};
+let currentCard = '';
+let scores = [0, 0, 0, 0];
+let playerNames = ["Danilo", "Denilson", "Kauã", "Kaique"];
+
 document.addEventListener("DOMContentLoaded", function () {
     let chaosButton = document.getElementById("chaosButton");
     if (chaosButton) {
@@ -175,18 +188,6 @@ function playChaos(indices) {
 
     isPlaying = false;
 }
-
-let players = [true, true, true, true];
-let attempts = [0, 0, 0, 0];
-let isPlaying = false;
-let cardImages = ['images/q.png', 'images/k.png',];
-let cardNames = {
-    'images/q.png': `<span class="queen">QUEEN'S</span> <span>TABLE</span>`,
-    'images/k.png': `<span class="king">KING'S</span> <span>TABLE</span>`,
-};
-let currentCard = '';
-let scores = [0, 0, 0, 0];
-let playerNames = ["Danilo", "Denilson", "Kauã", "Kaique"];
 
 function shufflePlayers() {
     let storedPlayers = JSON.parse(localStorage.getItem("players"));

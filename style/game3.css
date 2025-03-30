@@ -1,0 +1,186 @@
+.action-button {
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 23px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: background-color 0.3s;
+}
+
+.master {
+    background-color: red;
+}
+
+.master:hover {
+    background-color: darkred;
+}
+
+.chaos {
+    background-color: purple;
+}
+
+.chaos:hover {
+    background-color: darkviolet;
+}
+
+#chaos-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease-in-out;
+}
+
+#chaos-modal.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-content h2 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#player-selection {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+}
+
+.player-button {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: gray;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 14px;
+    text-align: center;
+}
+
+.player-button.selected {
+    background-color: purple;
+    transform: scale(1.05);
+}
+
+.execute-container {
+    margin-top: 20px;
+}
+
+.player-button.execute {
+    background-color: #28a745;
+    width: 45%;
+}
+
+.player-button.cancel {
+    background-color: #dc3545;
+    width: 45%;
+}
+
+#chaos-modal.close {
+    visibility: hidden;
+    opacity: 0;
+}
+
+#master-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#master-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    width: 480px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: fadeIn 0.5s ease;
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+}
+
+#master-selection select {
+    margin: 10px 0;
+    padding: 5px;
+    width: 100%;
+}
+
+.execute-container .player-button {
+    display: inline-block;
+    margin: 10px 5px;
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.cancel {
+    background-color: #f44336;
+}
+
+select {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+select:focus {
+    background-color: #e0f7fa;
+    border-color: #4CAF50;
+    outline: none;
+}
+
+option {
+    padding: 10px;
+    background-color: white;
+    color: #333;
+}
