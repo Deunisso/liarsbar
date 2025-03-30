@@ -59,10 +59,17 @@ function spinCard() {
     cardSpinSound.play();
 
     let index = 0;
+    let revealStep = 0; // Controla o progresso da exibição das imagens
 
     let interval = setInterval(() => {
-        cardImage.src = cardImages[index % cardImages.length];
         cardElement.style.transform = `translate(-50%, -50%) rotateY(${index * 60}deg)`;
+        
+        // Revela uma nova imagem a cada passo da rotação
+        if (index % 10 === 0 && revealStep < cardImages.length) {
+            cardImage.src = cardImages[revealStep];
+            revealStep++;
+        }
+
         index++;
     }, 100);
 
