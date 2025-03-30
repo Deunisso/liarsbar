@@ -1,39 +1,28 @@
 let selectedPlayers = [];
 
 function selectPlayer(element, player) {
-    const selectSound = new Audio('./audios/select.mp3');
-    const playerSound = new Audio(`./audios/${player}.mp3`);
+    const selectSound = new Audio(`./audios/select_${player}.ogg`);
     const deselectSound = new Audio(`./audios/deselect.mp3`);
 
     selectSound.load();
-    playerSound.load();
 
     const convertedPlayer = convertName(player);
 
     if (selectedPlayers.includes(convertedPlayer)) {
         deselectSound.play();
-
         selectedPlayers = selectedPlayers.filter(p => p !== convertedPlayer);
         element.classList.remove("selected");
     } else if (selectedPlayers.length < 4) {
         selectSound.play();
-
         selectSound.onended = function () {
-            playerSound.play();
         };
-
         selectedPlayers.push(convertedPlayer);
         element.classList.add("selected");
     }
 
     let startButton = document.getElementById("start-game");
-    if (selectedPlayers.length === 4) {
-        startButton.classList.add("enabled");
-        startButton.disabled = false;
-    } else {
-        startButton.classList.remove("enabled");
-        startButton.disabled = true;
-    }
+    startButton.disabled = selectedPlayers.length !== 4;
+    startButton.classList.toggle("enabled", selectedPlayers.length === 4);
 }
 
 function convertName(name) {
@@ -41,12 +30,10 @@ function convertName(name) {
         'Kaua': 'Kauã',
         'Leticia': 'Letícia',
     };
-    return nameMapping[name] || name; 
+    return nameMapping[name] || name;
 }
 
 function startGame() {
     localStorage.setItem("players", JSON.stringify(selectedPlayers));
- 
-    const page = 'gamemodes.html';
-    window.location.href = page;
+    window.location.href = 'gamemodes.html';
 }

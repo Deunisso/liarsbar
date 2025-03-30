@@ -1,3 +1,9 @@
+let morte = false;
+
+function checkMorte(index) {
+    morte = attempts[index] >= 6 || Math.random() < 1 / 6;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     let startAudio = new Audio("./audios/start.mp3");
     startAudio.play();
@@ -21,23 +27,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (gameContainer) gameContainer.style.display = "none";
     if (roundCard) {
-        roundCard.style.opacity = "0"; 
+        roundCard.style.opacity = "0";
         roundCard.style.visibility = "hidden";
     }
 
     setTimeout(() => {
-        introScreen.style.opacity = "0"; 
+        introScreen.style.opacity = "0";
         setTimeout(() => {
-            introScreen.remove(); 
+            introScreen.remove();
 
             if (gameContainer) gameContainer.style.display = "block";
 
             if (roundCard) {
-                roundCard.style.opacity = "1"; 
-                roundCard.style.visibility = "visible"; 
+                roundCard.style.opacity = "1";
+                roundCard.style.visibility = "visible";
             }
-        }, 500); 
-    }, 3000); 
+        }, 500);
+    }, 3000);
 });
 
 let players = [true, true, true, true];
@@ -52,142 +58,6 @@ let cardNames = {
 let currentCard = '';
 let scores = [0, 0, 0, 0];
 let playerNames = ["Danilo", "Denilson", "Kauã", "Kaique"];
-
-document.addEventListener("DOMContentLoaded", function () {
-    let devilButton = document.getElementById("devilButton");
-    if (devilButton) {
-        devilButton.onclick = openDevilModal;
-    }
-});
-
-let selectedPlayers = [];
-
-function initializeSelectedPlayers() {
-    selectedPlayers = players.map((alive, index) => alive ? index : -1).filter(index => index !== -1);
-
-    selectedPlayers.forEach(index => {
-        const button = document.getElementById(`player-btn-${index}`);
-        if (button) {
-            button.classList.add("selected");
-        }
-    });
-}
-
-function togglePlayerSelection(index) {
-    const button = document.getElementById(`player-btn-${index}`);
-
-    if (players[index]) {
-        if (selectedPlayers.includes(index)) {
-            selectedPlayers = selectedPlayers.filter(i => i !== index);
-            button.classList.remove("selected");
-        } else {
-            selectedPlayers.push(index);
-            button.classList.add("selected");
-        }
-    }
-}
-
-function openDevilModal() {
-    let modal = document.createElement("div");
-    modal.id = "devil-modal";
-    modal.innerHTML = `
-        <div class="modal-content">
-            <div id="player-selection">
-                ${playerNames.map((name, i) => `
-                    <div id="player-btn-${i}" class="player-button" onclick="togglePlayerSelection(${i})">${name}</div>
-                `).join('')}
-            </div>
-            <div class="execute-container">
-                <div class="player-button execute" onclick="executeDevil()">Executar</div>
-                <div class="player-button cancel" onclick="closeDevilModal()">Cancelar</div>
-            </div>
-        </div>
-    `;
-    document.body.appendChild(modal);
-
-    setTimeout(() => {
-        modal.classList.add('show');
-    }, 10);
-
-    initializeSelectedPlayers();
-}
-
-function executeDevil() {
-    playDevil(selectedPlayers);
-    closeDevilModal();
-}
-
-function closeDevilModal() {
-    let modal = document.getElementById("devil-modal");
-    if (modal) {
-        modal.classList.remove('show');
-        setTimeout(() => {
-            modal.remove();
-        }, 300); 
-    }
-}
-
-function playDevil(indices) {
-    if (indices.length === 0) return;
-
-    function playSequential(index, delay) {
-        setTimeout(() => {
-            if (!players[index] || attempts[index] >= 6) return;
-
-            let button = document.getElementById(`p${index + 1}`);
-            let icon = document.getElementById(`i${index + 1}`);
-            let gunShot = document.getElementById("gunShot");
-            let surviveSound = document.getElementById("surviveSound");
-
-            let alivePlayers = players.filter(p => p).length;
-
-            if (alivePlayers === 1) {
-                return;
-            }
-
-            attempts[index]++; 
-            icon.src = `images/vida${attempts[index]}.png`;
-
-            let morte = attempts[index] >= 6 || Math.random() < 1 / 6;
-
-            if (morte) {
-                gunShot.play();
-                button.classList.add("dead");
-                players[index] = false;
-                icon.src = "images/morto.gif";
-                let ouch = new Audio("./audios/ouch.mp3");
-
-                setTimeout(() => {
-                    if (ouch) {
-                        ouch.play();
-                    }
-                }, 500);
-            } else {
-                surviveSound.play();
-            }
-
-            if (players.filter(p => p).length === 1) {
-                setTimeout(() => {
-                    winSound.play();
-                    players.forEach((alive, i) => {
-                        if (alive) {
-                            scores[i]++;
-                        }
-                    });
-                    resetGame();
-                }, 3000);
-                return;
-            }
-
-        }, delay);
-    }
-
-    indices.forEach((index, i) => {
-        playSequential(index, i * 1000);
-    });
-
-    isPlaying = false;
-}
 
 function shufflePlayers() {
     let storedPlayers = JSON.parse(localStorage.getItem("players"));
@@ -259,13 +129,13 @@ function spinCard() {
         cardImage.src = currentCard;
         cardElement.style.transform = "translate(-50%, -50%) rotateY(0deg)";
 
-        if (currentCard.includes("a2.png")) {
+        if (currentCard.includes("a.png")) {
             audioA.currentTime = 0;
             audioA.play();
-        } else if (currentCard.includes("k2.png")) {
+        } else if (currentCard.includes("k.png")) {
             audioK.currentTime = 0;
             audioK.play();
-        } else if (currentCard.includes("q2.png")) {
+        } else if (currentCard.includes("q.png")) {
             audioQ.currentTime = 0;
             audioQ.play();
         }
@@ -278,17 +148,21 @@ function spinCard() {
                 let cardName = cardNames[currentCard];
                 let cardNameContainer = document.getElementById("card-name-container");
                 cardNameContainer.innerHTML = cardName;
-                let buttonsContainer = document.querySelector(".buttons-container");
-                if (buttonsContainer) {
-                    buttonsContainer.classList.add("show");
-                }
+
                 cardNameContainer.classList.add("show");
 
                 hiddenContainer.classList.add("show");
                 reload.play();
-            }, 100);
-        }, 2000);
-    }, 2000);
+
+                setTimeout(() => {
+                    let music = new Audio("./audios/music.ogg");
+                    music.currentTime = 0;
+                    music.loop = true;  // Faz a música repetir indefinidamente
+                    music.play();
+                }, 3000); // Aqui o setTimeout faz a música music.mp3 começar a tocar após 3 segundos, ou seja, após a música reload.mp3 tocar.
+            }, 100); // Este intervalo está fazendo a rotação da carta a cada 100 milissegundos, o que causa o efeito de giro.
+        }, 2000); // Aqui, após a escolha da carta, a carta some da tela (display: none) e um outro contêiner (provavelmente para mostrar o resultado) é exibido (display: flex).
+    }, 2000); // Aqui, a rotação da carta é interrompida e o som de rotação é pausado e resetado.
 }
 
 shufflePlayers();
@@ -308,14 +182,14 @@ function play(index) {
     clickSound.play();
 
     function normalizeName(name) {
-        return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        return name.normalize("NFD").replace(/[̀-ͯ]/g, "");
     }
 
     setTimeout(() => {
         attempts[index]++;
         icon.src = `images/vida${attempts[index]}.png`;
 
-        let morte = attempts[index] >= 6 || Math.random() < 1 / 6;
+        let morte = attempts[index] >= 6 || Math.random() < 1 / 6;  // Atualizando a variável global
 
         if (morte) {
             gunShot.play();
@@ -362,10 +236,146 @@ function play(index) {
     }, 1000);
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+    let devilButton = document.getElementById("devilButton");
+    if (devilButton) {
+        devilButton.onclick = openDevilModal;
+    }
+});
+
+let selectedPlayers = [];
+
+function initializeSelectedPlayers() {
+    selectedPlayers = players.map((alive, index) => alive ? index : -1).filter(index => index !== -1);
+
+    selectedPlayers.forEach(index => {
+        const button = document.getElementById(`player-btn-${index}`);
+        if (button) {
+            button.classList.add("selected");
+        }
+    });
+}
+
+function togglePlayerSelection(index) {
+    const button = document.getElementById(`player-btn-${index}`);
+
+    if (players[index]) {
+        if (selectedPlayers.includes(index)) {
+            selectedPlayers = selectedPlayers.filter(i => i !== index);
+            button.classList.remove("selected");
+        } else {
+            selectedPlayers.push(index);
+            button.classList.add("selected");
+        }
+    }
+}
+
+function openDevilModal() {
+    let modal = document.createElement("div");
+    modal.id = "devil-modal";
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div id="player-selection">
+                ${playerNames.map((name, i) => `
+                    <div id="player-btn-${i}" class="player-button" onclick="togglePlayerSelection(${i})">${name}</div>
+                `).join('')}
+            </div>
+            <div class="execute-container">
+                <div class="player-button execute" onclick="executeDevil()">Executar</div>
+                <div class="player-button cancel" onclick="closeDevilModal()">Cancelar</div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
+
+    initializeSelectedPlayers();
+}
+
+function executeDevil() {
+    playDevil(selectedPlayers);
+    closeDevilModal();
+}
+
+function closeDevilModal() {
+    let modal = document.getElementById("devil-modal");
+    if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.remove();
+        }, 300);
+    }
+}
+
+function playDevil(indices) {
+    if (indices.length === 0) return;
+
+    function playSequential(index, delay) {
+        setTimeout(() => {
+            if (!players[index] || attempts[index] >= 6) return;
+
+            let button = document.getElementById(`p${index + 1}`);
+            let icon = document.getElementById(`i${index + 1}`);
+            let gunShot = document.getElementById("gunShot");
+            let surviveSound = document.getElementById("surviveSound");
+
+            let alivePlayers = players.filter(p => p).length;
+
+            if (alivePlayers === 1) {
+                return;
+            }
+
+            attempts[index]++;
+            icon.src = `images/vida${attempts[index]}.png`;
+
+            let morte = attempts[index] >= 6 || Math.random() < 1 / 6;  // Atualizando a variável global
+
+            if (morte) {
+                gunShot.play();
+                button.classList.add("dead");
+                players[index] = false;
+                icon.src = "images/morto.gif";
+                let ouch = new Audio("./audios/ouch.mp3");
+
+                setTimeout(() => {
+                    if (ouch) {
+                        ouch.play();
+                    }
+                }, 500);
+            } else {
+                surviveSound.play();
+            }
+
+            if (players.filter(p => p).length === 1) {
+                setTimeout(() => {
+                    winSound.play();
+                    players.forEach((alive, i) => {
+                        if (alive) {
+                            scores[i]++;
+                        }
+                    });
+                    resetGame();
+                }, 3000);
+                return;
+            }
+
+        }, delay);
+    }
+
+    indices.forEach((index, i) => {
+        playSequential(index, i * 1000);
+    });
+
+    isPlaying = false;
+}
+
 function resetGame() {
     const gamemode = 'gamemodes.html';
-    
+
     setTimeout(() => {
         window.location.href = gamemode;
-    }, 3000); 
+    }, 3000);
 }
