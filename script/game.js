@@ -1,4 +1,49 @@
-click.play();
+document.addEventListener("DOMContentLoaded", function () {
+    // Criação da tela de introdução
+    let introScreen = document.createElement("div");
+    introScreen.id = "intro-screen";
+    introScreen.innerHTML = `
+        <div class="intro-content">
+            <p>Deck Contains</p>
+            <p>6x Ace's</p>
+            <p>6x King's</p>
+            <p>6x Queen's</p>
+            <p>2x Joker's</p>
+        </div>
+    `;
+    document.body.appendChild(introScreen);
+
+    // Referências aos elementos da tela de jogo e carta
+    let gameContainer = document.getElementById("game-container");
+    let roundCard = document.getElementById("round-card"); 
+
+    // Esconde a tela do jogo e a carta inicialmente
+    if (gameContainer) gameContainer.style.display = "none";
+    if (roundCard) {
+        roundCard.style.opacity = "0"; // Inicialmente a carta está invisível
+        roundCard.style.visibility = "hidden"; // A carta não é interativa
+    }
+
+    // Após 2 segundos, remove a tela de introdução e exibe a carta
+    setTimeout(() => {
+        introScreen.style.opacity = "0"; // Apaga a tela de introdução
+        setTimeout(() => {
+            introScreen.remove(); // Remove a tela de introdução do DOM
+
+            // Exibe o conteúdo do jogo
+            if (gameContainer) gameContainer.style.display = "block";
+
+            // Torna a carta visível e interativa
+            if (roundCard) {
+                roundCard.style.opacity = "1"; // Torna a carta visível
+                roundCard.style.visibility = "visible"; // Torna a carta interativa
+                click.play();
+            }
+        }, 500); // Aguarda meio segundo para remover a tela
+    }, 3000); // Aguardar 2 segundos antes de exibir a carta
+    start.play();
+});
+
 let players = [true, true, true, true];
 let attempts = [0, 0, 0, 0];
 let isPlaying = false;
@@ -118,7 +163,6 @@ function spinCard() {
 
                 hiddenContainer.classList.add("show");
                 reload.play();
-                start.play();
             }, 100);
         }, 2000);
     }, 2000);
@@ -196,7 +240,50 @@ function play(index) {
 }
 
 function resetGame() {
-    click.play();
+    // Criação da tela de introdução
+    let introScreen = document.createElement("div");
+    introScreen.id = "intro-screen";
+    introScreen.innerHTML = `
+        <div class="intro-content">
+            <p>Deck Contains</p>
+            <p>6x Ace's</p>
+            <p>6x King's</p>
+            <p>6x Queen's</p>
+            <p>2x Joker's</p>
+        </div>
+    `;
+    document.body.appendChild(introScreen);
+
+    // Referências aos elementos da tela de jogo e carta
+    let gameContainer = document.getElementById("game-container");
+    let roundCard = document.getElementById("round-card"); 
+
+    // Esconde a tela do jogo e a carta inicialmente
+    if (gameContainer) gameContainer.style.display = "none";
+    if (roundCard) {
+        roundCard.style.opacity = "0"; // Inicialmente a carta está invisível
+        roundCard.style.visibility = "hidden"; // A carta não é interativa
+    }
+
+    // Após 2 segundos, remove a tela de introdução e exibe a carta
+    setTimeout(() => {
+        introScreen.style.opacity = "0"; // Apaga a tela de introdução
+        setTimeout(() => {
+            introScreen.remove(); // Remove a tela de introdução do DOM
+
+            // Exibe o conteúdo do jogo
+            if (gameContainer) gameContainer.style.display = "block";
+
+            // Torna a carta visível e interativa
+            if (roundCard) {
+                roundCard.style.opacity = "1"; // Torna a carta visível
+                roundCard.style.visibility = "visible"; // Torna a carta interativa
+                click.play();
+            }
+        }, 500); // Aguarda meio segundo para remover a tela
+    }, 2000); // Aguardar 2 segundos antes de exibir a carta
+    start.play();
+
     players = [true, true, true, true];
     attempts = [0, 0, 0, 0];
     isPlaying = false;
