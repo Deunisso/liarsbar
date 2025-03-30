@@ -281,8 +281,8 @@ function resetGame() {
                 click.play();
             }
         }, 500); // Aguarda meio segundo para remover a tela
+        start.play();
     }, 2000); // Aguardar 2 segundos antes de exibir a carta
-    start.play();
 
     players = [true, true, true, true];
     attempts = [0, 0, 0, 0];
