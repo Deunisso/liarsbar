@@ -2,24 +2,25 @@ click.play();
 let players = [true, true, true, true];
 let attempts = [0, 0, 0, 0];
 let isPlaying = false;
-let cardImages = ['images/q.png', 'images/k.png', 'images/a.png'];
+let cardImages = ['images/q.png', 'images/k.png', 'images/a.png', 'images/q2.png', 'images/k2.png', 'images/a2.png'];
 let cardNames = {
     'images/q.png': `<span class="queen">QUEEN'S</span> <span>TABLE</span>`,
     'images/k.png': `<span class="king">KING'S</span> <span>TABLE</span>`,
-    'images/a.png': `<span class="ace">ACE'S</span> <span>TABLE</span>`
+    'images/a.png': `<span class="ace">ACE'S</span> <span>TABLE</span>`,
+    'images/q2.png': `<span class="queen">QUEEN'S</span> <span>TABLE ❤️</span>`,
+    'images/k2.png': `<span class="king">KING'S</span> <span>TABLE ❤️</span>`,
+    'images/a2.png': `<span class="ace">ACE'S</span> <span>TABLE ❤️</span>`,
 };
 let currentCard = '';
-let scores = [0, 0, 0, 0];  // Array para armazenar a pontuação
+let scores = [0, 0, 0, 0];  
 let playerNames = ["Danilo", "Denilson", "Kauã", "Kaique"];
 
 function shufflePlayers() {
-    // Recupera os jogadores salvos no localStorage
     let storedPlayers = JSON.parse(localStorage.getItem("players"));
     if (storedPlayers) {
         playerNames = storedPlayers;
     }
 
-    // Embaralha os jogadores
     playerNames = playerNames.sort(() => Math.random() - 0.5);
 
     let container = document.getElementById("players-container");
@@ -39,16 +40,14 @@ function shufflePlayers() {
 
 let hasSpun = false;
 
-// Carregar os áudios fora da função para evitar problemas com o carregamento.
 let audioA = new Audio("./audios/audioA.mp3");
 let audioK = new Audio("./audios/audioK.mp3");
 let audioQ = new Audio("./audios/audioQ.mp3");
 
 function shuffleCards() {
-    // Embaralha as imagens
     for (let i = cardImages.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [cardImages[i], cardImages[j]] = [cardImages[j], cardImages[i]]; // Troca as cartas
+        [cardImages[i], cardImages[j]] = [cardImages[j], cardImages[i]]; 
     }
 }
 
@@ -67,13 +66,11 @@ function spinCard() {
 
     cardSpinSound.play();
 
-    shuffleCards(); // Chama a função para embaralhar as cartas
+    shuffleCards();
 
-    // Inicializa as imagens das cartas
-    let currentCards = [cardImages[0], cardImages[1], cardImages[2]];
+    let currentCards = [cardImages[0], cardImages[1], cardImages[2], cardImages[3], cardImages[4], cardImages[5]];
 
     let interval = setInterval(() => {
-        // Exibe as 3 cartas alternando entre elas
         cardImage.src = currentCards[index % currentCards.length];
         cardElement.style.transform = `translate(-50%, -50%) rotateY(${index * 60}deg)`;
         index++;
@@ -84,12 +81,10 @@ function spinCard() {
         cardSpinSound.pause();
         cardSpinSound.currentTime = 0;
 
-        // Sorteia uma carta aleatória entre as 3
         currentCard = currentCards[Math.floor(Math.random() * currentCards.length)];
         cardImage.src = currentCard;
-        cardElement.style.transform = "translate(-50%, -50%) rotateY(0deg)"; // Para a rotação no final
+        cardElement.style.transform = "translate(-50%, -50%) rotateY(0deg)"; 
 
-        // Toca o som correspondente à carta sorteada
         if (currentCard.includes("a.png")) {
             audioA.currentTime = 0;
             audioA.play();
@@ -99,22 +94,26 @@ function spinCard() {
         } else if (currentCard.includes("q.png")) {
             audioQ.currentTime = 0;
             audioQ.play();
+        } else if (currentCard.includes("a2.png")) {
+            audioA.currentTime = 0;
+            audioA.play();
+        } else if (currentCard.includes("k2.png")) {
+            audioK.currentTime = 0;
+            audioK.play();
+        } else if (currentCard.includes("q2.png")) {
+            audioQ.currentTime = 0;
+            audioQ.play();
         }
-
+    
         setTimeout(() => {
-            // Exibe a carta e nome após a rotação
             cardElement.style.display = 'none';
             hiddenContainer.style.display = "flex";
 
             setTimeout(() => {
-                // Exibe o nome da carta sorteada
                 let cardName = cardNames[currentCard];
                 let cardNameContainer = document.getElementById("card-name-container");
-
-                // Atualiza o nome da carta
                 cardNameContainer.innerHTML = cardName;
 
-                // Adiciona a classe 'show' para iniciar a transição de fade
                 cardNameContainer.classList.add("show");
 
                 hiddenContainer.classList.add("show");
@@ -152,7 +151,7 @@ function play(index) {
         let morte = attempts[index] >= 6 || Math.random() < 1 / 6;
 
         if (morte) {
-            gunShot.play();  // Toca o áudio do tiro primeiro
+            gunShot.play();
             button.classList.add("dead");
             players[index] = false;
             icon.src = "images/morto.gif";
@@ -161,15 +160,13 @@ function play(index) {
             let deathAudio = document.getElementById(`audio${normalizedPlayerName}`);
             let seLascouAudio = new Audio("./audios/se_lascou.mp3");
 
-            // Toca o áudio do nome do jogador após 3 segundos do gunShot
             setTimeout(() => {
                 if (deathAudio) {
                     deathAudio.play();
                     deathAudio.onended = () => {
                         setTimeout(() => {
-                            // Toca "se_lascou" após o áudio do nome
                             seLascouAudio.play();
-                        }, 100); // Pequeno delay antes de tocar "se_lascou"
+                        }, 100);
                     };
                 }
             }, 500);
@@ -180,11 +177,10 @@ function play(index) {
         setTimeout(() => {
             if (players.filter(p => p).length === 1) {
                 setTimeout(() => {
-                    winSound.play();  // Som de vitória com delay
-                }, 2000);  // Delay de 1 segundo para o som de vitória
+                    winSound.play();
+                }, 2000); 
 
                 setTimeout(() => {
-                    // Atribui 1 ponto aos sobreviventes
                     players.forEach((alive, i) => {
                         if (alive) {
                             scores[i]++;
@@ -230,16 +226,14 @@ function resetGame() {
     hiddenContainer.style.display = "none";
     hiddenContainer.classList.remove("show");
 
-    // Adicionando para esconder o nome do card durante o reset
     let cardNameContainer = document.getElementById("card-name-container");
-    cardNameContainer.classList.remove("show"); // Remove a classe 'show' para esconder o nome
+    cardNameContainer.classList.remove("show"); 
 
     let reload = document.getElementById("reload");
     let start = document.getElementById("start");
     reload.currentTime = 0;
     start.currentTime = 0;
 
-    // Adiciona evento ao clique na carta
     cardElement.onclick = function () {
         spinCard();
 
@@ -265,13 +259,12 @@ function resetGame() {
 
                 function playSequence(index) {
                     if (index >= leaderAudios.length) {
-                        setTimeout(() => leaderMessage.play(), 250); // Pequeno atraso antes da frase final
+                        setTimeout(() => leaderMessage.play(), 250);
                         return;
                     }
 
                     leaderAudios[index].play();
 
-                    // Se for penúltimo jogador e houver mais de um, tocar "e"
                     if (index === leaderAudios.length - 2 && leaderAudios.length > 1) {
                         leaderAudios[index].onended = () => {
                             audioE.play();
@@ -286,6 +279,6 @@ function resetGame() {
 
                 playSequence(0);
             }
-        }, 8000); // Tempo de espera antes de tocar os áudios
+        }, 8000); 
     };
 }
