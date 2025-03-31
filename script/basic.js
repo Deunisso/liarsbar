@@ -88,6 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
     music.play().catch(error => console.error("Erro ao iniciar a música:", error));
 
     toggleMusic();
+    updateCurrentCards([cardImages[0], cardImages[1], cardImages[2],]);
 });
 
 function resetGame() {
