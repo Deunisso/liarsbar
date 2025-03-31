@@ -32,33 +32,28 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
     document.body.appendChild(introScreen);
 
-    // Referências aos elementos da tela de jogo e carta
     let gameContainer = document.getElementById("game-container");
     let roundCard = document.getElementById("round-card");
 
-    // Esconde a tela do jogo e a carta inicialmente
     if (gameContainer) gameContainer.style.display = "none";
     if (roundCard) {
-        roundCard.style.opacity = "0"; // Inicialmente a carta está invisível
-        roundCard.style.visibility = "hidden"; // A carta não é interativa
+        roundCard.style.opacity = "0";
+        roundCard.style.visibility = "hidden";
     }
 
-    // Após 2 segundos, remove a tela de introdução e exibe a carta
     setTimeout(() => {
-        introScreen.style.opacity = "0"; // Apaga a tela de introdução
+        introScreen.style.opacity = "0";
         setTimeout(() => {
-            introScreen.remove(); // Remove a tela de introdução do DOM
+            introScreen.remove();
 
-            // Exibe o conteúdo do jogo
             if (gameContainer) gameContainer.style.display = "block";
 
-            // Torna a carta visível e interativa
             if (roundCard) {
-                roundCard.style.opacity = "1"; // Torna a carta visível
-                roundCard.style.visibility = "visible"; // Torna a carta interativa
+                roundCard.style.opacity = "1"; 
+                roundCard.style.visibility = "visible";
             }
-        }, 500); // Aguarda meio segundo para remover a tela
-    }, 3000); // Aguardar 3 segundos antes de exibir a carta
+        }, 500); 
+    }, 3000); 
 });
 
 let players = [true, true, true, true];

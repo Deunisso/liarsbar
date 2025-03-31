@@ -200,7 +200,7 @@ function play(index) {
         attempts[index]++;
         icon.src = `images/vida${attempts[index]}.png`;
 
-        let morte = attempts[index] >= 6 || Math.random() < 1 / 6;  // Atualizando a variável global
+        let morte = attempts[index] >= 6 || Math.random() < 1 / 6;
 
         if (morte) {
             gunShot.play();
@@ -342,7 +342,7 @@ function playChaos(indices) {
             attempts[index]++;
             icon.src = `images/vida${attempts[index]}.png`;
 
-            let morte = attempts[index] >= 6 || Math.random() < 1 / 6;  // Atualizando a variável global
+            let morte = attempts[index] >= 6 || Math.random() < 1 / 6; 
 
             if (morte) {
                 gunShot.play();
@@ -446,25 +446,21 @@ function executeMaster() {
     let gunShot = document.getElementById("gunShot");
     let surviveSound = document.getElementById("surviveSound");
 
-    // **O atirador gasta a munição**
     attempts[shooterIndex]++;
     shooterIcon.src = `images/vida${attempts[shooterIndex]}.png`;
 
     console.log(`🔫 ${playerNames[shooterIndex]} atirou! Municões restantes: ${6 - attempts[shooterIndex]}`);
     console.log(`🎯 Imagem do atirador atualizada para: images/vida${attempts[shooterIndex]}.png`);
 
-    // **Chance de morte (1/6)**
-    let morte = attempts[shooterIndex] >= 6 || Math.random() < 1 / 6;  // Atualizando a variável para shooterIndex
+    let morte = attempts[shooterIndex] >= 6 || Math.random() < 1 / 6; 
 
     if (morte) {
-        // **Alvo morreu**
         gunShot.play();
         players[targetIndex] = false;
         targetIcon.src = "images/morto.gif";
         targetButton.classList.add("dead");
         console.log(`💀 ${playerNames[targetIndex]} foi eliminado!`);
 
-        // **O atirador recarrega sua munição**
         attempts[shooterIndex] = 0;
         shooterIcon.src = `images/vida0.png`;
         console.log(`🔄 ${playerNames[shooterIndex]} recarregou! Munições resetadas.`);
@@ -474,11 +470,9 @@ function executeMaster() {
             ouch.play();
         }, 500);
     } else {
-        // **Alvo sobreviveu**
         surviveSound.play();
     }
 
-    // **Verifica se restou apenas um jogador vivo**
     if (players.filter(p => p).length === 1) {
         setTimeout(() => {
             winSound.play();
@@ -507,8 +501,7 @@ function playMaster(shooterIndex, targetIndex) {
     attempts[shooterIndex]++;
     shooterIcon.src = `images/vida${attempts[shooterIndex]}.png`;
 
-    // **Chance de morte (1/6)**
-    let morte = attempts[shooterIndex] >= 6 || Math.random() < 1 / 6;  // Atualizando a variável para shooterIndex
+    let morte = attempts[shooterIndex] >= 6 || Math.random() < 1 / 6; 
 
     if (morte) {
         gunShot.play();

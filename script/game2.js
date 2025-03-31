@@ -201,7 +201,7 @@ function play(index) {
         attempts[index]++;
         icon.src = `images/vida${attempts[index]}.png`;
 
-        let morte = attempts[index] >= 6 || Math.random() < 1 / 6;  // Atualizando a variável global
+        let morte = attempts[index] >= 6 || Math.random() < 1 / 6; 
 
         if (morte) {
             gunShot.play();
@@ -343,7 +343,7 @@ function playDevil(indices) {
             attempts[index]++;
             icon.src = `images/vida${attempts[index]}.png`;
 
-            let morte = attempts[index] >= 6 || Math.random() < 1 / 6;  // Atualizando a variável global
+            let morte = attempts[index] >= 6 || Math.random() < 1 / 6; 
 
             if (morte) {
                 gunShot.play();
