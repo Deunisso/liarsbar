@@ -417,3 +417,7 @@ select:focus {
     background-color: #e8f5e9;
     outline: none;
 }
+
+#game-image {
+    width: 300px;
+}
