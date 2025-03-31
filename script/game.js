@@ -1,37 +1,9 @@
-function saveScores() {
-    localStorage.setItem("scores", JSON.stringify(scores));
-}
-
 document.addEventListener("DOMContentLoaded", function () {
-    let startAudio = new Audio("./audios/start.mp3");
+    let startAudio = document.getElementById("start");
     startAudio.play();
+    loadScores();
 
-    let savedScores = JSON.parse(localStorage.getItem("scores"));
-    if (savedScores) {
-        scores = savedScores; 
-    }
-
-    shufflePlayers();
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    let startAudio = new Audio("./audios/start.mp3");
-    startAudio.play();
-
-    let introScreen = document.createElement("div");
-    introScreen.id = "intro-screen";
-    introScreen.innerHTML = `
-        <div class="intro-content">
-            <img src="./images/basic.png" alt="Basic" class="basic-intro-image"><br>
-            <p>Deck Contains</p>
-            <p>6x Ace's</p>
-            <p>6x King's</p>
-            <p>6x Queen's</p>
-            <p>2x Joker's</p>
-        </div>
-    `;
-    document.body.appendChild(introScreen);
-
+    let introScreen = document.getElementById("intro-screen");
     let gameContainer = document.getElementById("game-container");
     let roundCard = document.getElementById("round-card");
 
@@ -44,38 +16,78 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
         introScreen.style.opacity = "0";
         setTimeout(() => {
-            introScreen.remove();
-
+            introScreen.style.display = "none";
             if (gameContainer) gameContainer.style.display = "block";
 
             if (roundCard) {
-                roundCard.style.opacity = "1"; 
+                roundCard.style.opacity = "1";
                 roundCard.style.visibility = "visible";
             }
-        }, 500); 
-    }, 3000); 
+        }, 500);
+    }, 3000);
 });
 
+function loadScores() {
+    let storedScores = JSON.parse(localStorage.getItem("scores"));
+    if (storedScores) {
+        scores = storedScores;
+        playerNames.forEach((name, i) => {
+            document.getElementById(`score${i + 1}`).innerText = scores[i]; // Atualiza a pontuação no HTML
+        });
+    }
+}
+
+let playerNames = ["Player 1", "Player 2", "Player 3", "Player 4"];
 let players = [true, true, true, true];
-let attempts = [0, 0, 0, 0];
+let hasSpun = false;
 let isPlaying = false;
-let cardImages = ['images/q.png', 'images/k.png', 'images/a.png',];
+let attempts = [0, 0, 0, 0];
+let scores = [0, 0, 0, 0];
+let currentCard = '';
+
+let cardImages = ['images/q.png', 'images/k.png', 'images/a.png',
+                  'images/q2.png', 'images/k2.png', 'images/a2.png',
+                  'images/q3.png', 'images/k3.png',];
+
 let cardNames = {
     'images/q.png': `<span class="queen">QUEEN'S</span> <span>TABLE</span>`,
     'images/k.png': `<span class="king">KING'S</span> <span>TABLE</span>`,
     'images/a.png': `<span class="ace">ACE'S</span> <span>TABLE</span>`,
+    'images/q2.png': `<span class="queen">QUEEN'S</span> <span>TABLE ❤️</span>`,
+    'images/k2.png': `<span class="king">KING'S</span> <span>TABLE ❤️</span>`,
+    'images/a2.png': `<span class="ace">ACE'S</span> <span>TABLE ❤️</span>`,
+    'images/q3.png': `<span class="queen">QUEEN'S</span> <span>TABLE</span>`,
+    'images/k3.png': `<span class="king">KING'S</span> <span>TABLE</span>`,
 };
-let currentCard = '';
-let scores = [0, 0, 0, 0];
-let playerNames = ["Danilo", "Denilson", "Kauã", "Kaique"];
 
-function shufflePlayers() {
+function resetGame() {
+    const gamemode = 'gamemodes.html';
+
+    setTimeout(() => {
+        window.location.href = gamemode;
+    }, 3000);
+}
+
+function toggleMusic() {
+    let musicToggle = document.getElementById("music-toggle");
+    let music = document.getElementById("music");
+
+    music.pause();
+
+    musicToggle.addEventListener("change", function () {
+        if (musicToggle.checked) {
+            music.play();
+        } else {
+            music.pause();
+        }
+    });
+}; toggleMusic();
+
+function displayPlayers() {
     let storedPlayers = JSON.parse(localStorage.getItem("players"));
     if (storedPlayers) {
         playerNames = storedPlayers;
     }
-
-    playerNames = playerNames.sort(() => Math.random() - 0.5);
 
     let container = document.getElementById("players-container");
     container.innerHTML = "";
@@ -92,19 +104,6 @@ function shufflePlayers() {
     });
 }
 
-let hasSpun = false;
-
-let audioA = new Audio("./audios/audioA.mp3");
-let audioK = new Audio("./audios/audioK.mp3");
-let audioQ = new Audio("./audios/audioQ.mp3");
-
-function shuffleCards() {
-    for (let i = cardImages.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [cardImages[i], cardImages[j]] = [cardImages[j], cardImages[i]];
-    }
-}
-
 function spinCard() {
     if (hasSpun) return;
     hasSpun = true;
@@ -113,14 +112,12 @@ function spinCard() {
     let cardImage = document.getElementById("card-image");
     let cardSpinSound = document.getElementById("cardSpinSound");
     let hiddenContainer = document.querySelector(".container");
-    let audioA = new Audio("./audios/audioA.mp3");
-    let audioK = new Audio("./audios/audioK.mp3");
-    let audioQ = new Audio("./audios/audioQ.mp3");
+    let audioA = document.getElementById("audioA");
+    let audioK = document.getElementById("audioK");
+    let audioQ = document.getElementById("audioQ");
     let index = 0;
 
     cardSpinSound.play();
-
-    shuffleCards();
 
     let currentCards = [cardImages[0], cardImages[1], cardImages[2],];
 
@@ -148,6 +145,21 @@ function spinCard() {
         } else if (currentCard.includes("q.png")) {
             audioQ.currentTime = 0;
             audioQ.play();
+        } else if (currentCard.includes("a2.png")) {
+            audioA.currentTime = 0;
+            audioA.play();
+        } else if (currentCard.includes("k2.png")) {
+            audioK.currentTime = 0;
+            audioK.play();
+        } else if (currentCard.includes("q2.png")) {
+            audioQ.currentTime = 0;
+            audioQ.play();
+        } else if (currentCard.includes("k3.png")) {
+            audioK.currentTime = 0;
+            audioK.play();
+        } else if (currentCard.includes("q3.png")) {
+            audioQ.currentTime = 0;
+            audioQ.play();
         }
 
         setTimeout(() => {
@@ -163,14 +175,25 @@ function spinCard() {
 
                 hiddenContainer.classList.add("show");
                 reload.play();
-            }, 100); // Este intervalo está fazendo a rotação da carta a cada 100 milissegundos, o que causa o efeito de giro.
-        }, 2000); // Aqui, após a escolha da carta, a carta some da tela (display: none) e um outro contêiner (provavelmente para mostrar o resultado) é exibido (display: flex).
-    }, 2000); // Aqui, a rotação da carta é interrompida e o som de rotação é pausado e resetado.
+            }, 100);
+        }, 2000);
+    }, 2000);
+}; displayPlayers();
+
+function saveScores() {
+    localStorage.setItem("scores", JSON.stringify(scores));
 }
 
-shufflePlayers();
-
 function play(index) {
+    if (players.filter(p => p).length === 1) {
+        players.forEach((alive, i) => {
+            if (alive) {
+                let button = document.getElementById(`p${i + 1}`);
+                button.disabled = true;
+            }
+        });
+    }
+
     if (!players[index] || attempts[index] >= 6 || isPlaying) return;
 
     isPlaying = true;
@@ -202,7 +225,7 @@ function play(index) {
 
             let normalizedPlayerName = normalizeName(playerNames[index]);
             let deathAudio = document.getElementById(`audio${normalizedPlayerName}`);
-            let seLascouAudio = new Audio("./audios/se_lascou.mp3");
+            let seLascouAudio = document.getElementById("seLascou");
 
             setTimeout(() => {
                 if (deathAudio) {
@@ -228,6 +251,7 @@ function play(index) {
                     players.forEach((alive, i) => {
                         if (alive) {
                             scores[i]++;
+                            document.getElementById(`score${i + 1}`).innerText = scores[i]; // Atualiza a pontuação no HTML
                         }
                     });
                     saveScores();
@@ -239,23 +263,6 @@ function play(index) {
     }, 1000);
 }
 
-let musicToggle = document.getElementById("music-toggle");
-let music = document.getElementById("music");
+// ---------- ---------- ---------- MODO DEVIL ---------- ----------  ---------- //
 
-music.pause();
-
-musicToggle.addEventListener("change", function() {
-    if (musicToggle.checked) {
-        music.play(); 
-    } else {
-        music.pause(); 
-    }
-});
-
-function resetGame() {
-    const gamemode = 'gamemodes.html';
-
-    setTimeout(() => {
-        window.location.href = gamemode;
-    }, 3000);
-}
+// ---------- ---------- ---------- MODO CHAOS ---------- ----------  ---------- //
