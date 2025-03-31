@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     let startAudio = document.getElementById("start");
+    let music = document.getElementById("music"); 
+
     startAudio.play();
     loadScores();
 
@@ -25,6 +27,62 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }, 500);
     }, 3000);
+
+    const params = new URLSearchParams(window.location.search);
+    const mode = params.get("mode") || "basic";
+
+    const gameModes = {
+        basic: {
+            image: "./images/basic.png",
+            cardBack: "images/back.png",
+            deckInfo: ["6x Ace's", "6x King's", "6x Queen's", "2x Joker's"],
+            buttons: [],
+            music: "./audios/basic.mp3"
+        },
+
+        devil: {
+            image: "./images/devil.png",
+            cardBack: "images/back2.png",
+            deckInfo: ["6x Ace's", "6x King's", "6x Queen's", "2x Joker's"],
+            buttons: [{ id: "devilButton", text: "DEVIL", class: "devil" }],
+            music: "./audios/devil.mp3"
+        },
+
+        chaos: {
+            image: "./images/chaos.png",
+            cardBack: "images/back3.png",
+            deckInfo: ["5x King's", "5x Queen's", "1x Chaos (A)", "1x Master (10)"],
+            buttons: [
+                { id: "devilButton", text: "DEVIL", class: "devil" },
+                { id: "masterButton", text: "MASTER", class: "master" }
+            ],
+            music: "./audios/chaos.mp3"
+        }
+    };
+
+    const gameConfig = gameModes[mode] || gameModes.basic;
+
+    document.getElementById("game-image").src = gameConfig.image;
+    document.getElementById("card-image").src = gameConfig.cardBack;
+
+    const deckInfoContainer = document.getElementById("deck-info");
+    deckInfoContainer.innerHTML = gameConfig.deckInfo.map(item => `<p>${item}</p>`).join("");
+
+    const buttonsContainer = document.getElementById("buttons-container");
+    buttonsContainer.innerHTML = "";
+    gameConfig.buttons.forEach(btn => {
+        const button = document.createElement("button");
+        button.id = btn.id;
+        button.className = `action-button ${btn.class}`;
+        button.textContent = btn.text;
+        buttonsContainer.appendChild(button);
+    });
+
+    music.src = gameConfig.music;
+    music.load();
+    music.play().catch(error => console.error("Erro ao iniciar a música:", error));
+
+    toggleMusic()
 });
 
 function resetGame() {

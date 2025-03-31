@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic</title>
+    <title>Liar's Bar</title>
     <link rel="icon" type="image/png" href="images/icon.png" />
     <link rel="stylesheet" href="./style/game.css">
 </head>
@@ -19,22 +19,21 @@
 
     <div id="intro-screen">
         <div class="intro-content">
-            <img src="./images/basic.png" alt="Basic" class="basic-intro-image"><br>
+            <img id="game-image" src="" alt="Game Mode" class="game-intro-image"><br>
             <p>Deck Contains</p>
-            <p>6x Ace's</p>
-            <p>6x King's</p>
-            <p>6x Queen's</p>
-            <p>2x Joker's</p>
+            <div id="deck-info"></div>
         </div>
     </div>
 
     <div id="card-name-container"></div>
 
     <div class="card-container" id="round-card" onclick="spinCard()">
-        <img id="card-image" src="images/back.png" alt="Carta">
+        <img id="card-image" src="" alt="Carta">
     </div>
 
     <div class="container" id="players-container"></div>
+
+    <div class="buttons-container" id="buttons-container"></div>
 
     <audio id="audioA" src="./audios/audioA.mp3" preload="auto"></audio>
     <audio id="audioK" src="./audios/audioK.mp3" preload="auto"></audio>
@@ -64,9 +63,9 @@
     <audio id="devil" src="./audios/devil.ogg" preload="auto"></audio>
     <audio id="gamemodes" src="./audios/gamemodes.mp3" preload="auto"></audio>
     <audio id="gunShot" src="./audios/gunShot.mp3" preload="auto"></audio>
-    <audio id="music" src="./audios/music.mp3" preload="auto" loop></audio>
-    <audio id="music2" src="./audios/music2.mp3" preload="auto" loop></audio>
-    <audio id="music3" src="./audios/music3.mp3" preload="auto" loop></audio>
+    <audio id="music" src="./audios/basic.mp3" preload="auto" loop></audio>
+    <audio id="music2" src="./audios/devil.mp3" preload="auto" loop></audio>
+    <audio id="music3" src="./audios/chaos.mp3" preload="auto" loop></audio>
     <audio id="ouch" src="./audios/ouch.mp3" preload="auto"></audio>
     <audio id="reload" src="./audios/reload.mp3" preload="auto"></audio>
     <audio id="seLascou" src="./audios/se_lascou.mp3" preload="auto"></audio>
@@ -75,8 +74,10 @@
     <audio id="surviveSound" src="./audios/surviveSound.mp3" preload="auto"></audio>
     <audio id="venceu" src="./audios/venceu.mp3" preload="auto"></audio>
     <audio id="winSound" src="./audios/winSound.mp3" preload="auto"></audio>
-    
+
     <script src="./script/game.js"></script>
+    <script src="./script/game2.js"></script>
+    <script src="./script/game3.js"></script>
 </body>
 
 </html>

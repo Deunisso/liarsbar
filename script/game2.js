@@ -1,11 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-    let devilButton = document.getElementById("devilButton");
+    let buttonsContainer = document.getElementById("buttons-container");
 
-    if (devilButton) {
-        devilButton.addEventListener("click", openDevilModal);
-    }
+    buttonsContainer.addEventListener("click", (event) => {
+        if (event.target && event.target.id === "devilButton") {
+            openDevilModal();
+        }
+    });
 
-    updateCurrentCards([cardImages[3], cardImages[4], cardImages[5],]);
+    console.log(document.getElementById("devilButton"));
+
+    updateCurrentCards([cardImages[3], cardImages[4], cardImages[5]]);
 });
 
 let isDevilRunning = false;
