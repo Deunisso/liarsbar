@@ -32,7 +32,7 @@ function loadScores() {
     if (storedScores) {
         scores = storedScores;
         playerNames.forEach((name, i) => {
-            document.getElementById(`score${i + 1}`).innerText = scores[i]; // Atualiza a pontuação no HTML
+            document.getElementById(`score${i + 1}`).innerText = scores[i];
         });
     }
 }
@@ -248,6 +248,20 @@ function play(index) {
             if (players.filter(p => p).length === 1) {
                 setTimeout(() => {
                     winSound.play();
+
+                    let winnerIndex = players.findIndex(p => p);
+                    let winnerNameAudio = document.getElementById(`audio${normalizeName(playerNames[winnerIndex])}`);
+                    let venceuAudio = document.getElementById("venceu");
+
+                    if (winnerNameAudio) {
+                        winnerNameAudio.play();
+                    }
+
+                    setTimeout(() => {
+                        if (venceuAudio) {
+                            venceuAudio.play(); 
+                        }
+                    }, winnerNameAudio ? 1000 : 0); 
                 }, 2000);
 
                 setTimeout(() => {
@@ -277,18 +291,18 @@ document.addEventListener("DOMContentLoaded", function () {
 let selectedPlayers = [];
 
 function disablePlayerButtons() {
-    document.querySelectorAll(".player-button, #devilButton, #players-container button").forEach(button => {
-        button.classList.add("disabled"); 
-        button.style.pointerEvents = "none"; 
-        button.setAttribute("disabled", "true"); 
+    document.querySelectorAll("#devilButton, #masterButton, #players-container button").forEach(button => {
+        button.classList.add("disabled");
+        button.style.pointerEvents = "none";
+        button.setAttribute("disabled", "true");
     });
 }
 
 function enablePlayerButtons() {
-    document.querySelectorAll(".player-button, #devilButton, #players-container button").forEach(button => {
+    document.querySelectorAll("#devilButton, #masterButton, #players-container button").forEach(button => {
         button.classList.remove("disabled");
-        button.style.pointerEvents = "auto"; 
-        button.removeAttribute("disabled"); 
+        button.style.pointerEvents = "auto";
+        button.removeAttribute("disabled");
     });
 }
 
@@ -342,22 +356,22 @@ function openDevilModal() {
     initializeSelectedPlayers();
 }
 
-let isDevilRunning = false; 
+let isDevilRunning = false;
 
 function executeDevil() {
-    if (isDevilRunning) return; 
+    if (isDevilRunning) return;
 
-    isDevilRunning = true; 
-    disablePlayerButtons(); 
+    isDevilRunning = true;
+    disablePlayerButtons();
 
     playDevil(selectedPlayers);
-    closeDevilModal(); 
+    closeDevilModal();
 
     let totalDelay = (selectedPlayers.length * 1400);
 
     setTimeout(() => {
-        enablePlayerButtons(); 
-        isDevilRunning = false; 
+        enablePlayerButtons();
+        isDevilRunning = false;
     }, totalDelay);
 }
 
@@ -431,6 +445,21 @@ function playDevil(indices) {
             if (players.filter(p => p).length === 1) {
                 setTimeout(() => {
                     winSound.play();
+
+                    let winnerIndex = players.findIndex(p => p);
+                    let winnerNameAudio = document.getElementById(`audio${normalizeName(playerNames[winnerIndex])}`);
+                    let venceuAudio = document.getElementById("venceu");
+
+                    if (winnerNameAudio) {
+                        winnerNameAudio.play();
+                    }
+
+                    setTimeout(() => {
+                        if (venceuAudio) {
+                            venceuAudio.play();
+                        }
+                    }, winnerNameAudio ? 1000 : 0);
+
                     players.forEach((alive, i) => {
                         if (alive) {
                             scores[i]++;
@@ -450,4 +479,185 @@ function playDevil(indices) {
     });
 
     isPlaying = false;
+}
+
+// ---------- ---------- ---------- MODO CHAOS ---------- ----------  ---------- //
+document.addEventListener("DOMContentLoaded", function () {
+    let masterButton = document.getElementById("masterButton");
+    if (masterButton) {
+        masterButton.onclick = openMasterModal;
+    }
+});
+
+function openMasterModal() {
+    let modal = document.createElement("div");
+    modal.id = "master-modal";
+
+    let alivePlayers = players.map((alive, i) => alive ? i : -1).filter(i => i !== -1);
+
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div id="player-selection">
+                <select id="shooter">
+                    ${alivePlayers.map(index => `<option value="${index}">${playerNames[index]}</option>`).join('')}
+                </select>
+                <select id="target">
+                    ${alivePlayers.map(index => `<option value="${index}">${playerNames[index]}</option>`).join('')}
+                </select>
+            </div>
+            <div class="execute-container">
+                <div class="player-button execute" onclick="executeMaster()">Executar</div>
+                <div class="player-button cancel" onclick="closeMasterModal()">Cancelar</div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
+}
+
+function closeMasterModal() {
+    let modal = document.getElementById("master-modal");
+    if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.remove();
+        }, 300);
+    }
+}
+
+function executeMaster() {
+    let shooterIndex = parseInt(document.getElementById("shooter").value);
+    let targetIndex = parseInt(document.getElementById("target").value);
+
+    if (shooterIndex === targetIndex || !players[targetIndex] || !players[shooterIndex] || attempts[shooterIndex] >= 6) {
+        alert("Escolha um alvo válido! O atirador e o alvo devem ser diferentes e estar vivos.");
+        return;
+    }
+
+    let targetButton = document.getElementById(`p${targetIndex + 1}`);
+    let shooterIcon = document.getElementById(`i${shooterIndex + 1}`);
+    let targetIcon = document.getElementById(`i${targetIndex + 1}`);
+    let gunShot = document.getElementById("gunShot");
+    let surviveSound = document.getElementById("surviveSound");
+
+    attempts[shooterIndex]++;
+    shooterIcon.src = `images/vida${attempts[shooterIndex]}.png`;
+
+    console.log(`🔫 ${playerNames[shooterIndex]} atirou! Municões restantes: ${6 - attempts[shooterIndex]}`);
+    console.log(`🎯 Imagem do atirador atualizada para: images/vida${attempts[shooterIndex]}.png`);
+
+    let morte = attempts[shooterIndex] >= 6 || Math.random() < 1 / 6;
+
+    if (morte) {
+        gunShot.play();
+        players[targetIndex] = false;
+        targetIcon.src = "images/morto.gif";
+        targetButton.classList.add("dead");
+        console.log(`💀 ${playerNames[targetIndex]} foi eliminado!`);
+
+        attempts[shooterIndex] = 0;
+        shooterIcon.src = `images/vida0.png`;
+        console.log(`🔄 ${playerNames[shooterIndex]} recarregou! Munições resetadas.`);
+
+        setTimeout(() => {
+            let ouch = new Audio("./audios/ouch.mp3");
+            ouch.play();
+        }, 500);
+    } else {
+        surviveSound.play();
+    }
+
+    if (players.filter(p => p).length === 1) {
+        setTimeout(() => {
+            winSound.play();
+
+            let winnerIndex = players.findIndex(p => p);
+            let winnerNameAudio = document.getElementById(`audio${normalizeName(playerNames[winnerIndex])}`);
+            let venceuAudio = document.getElementById("venceu");
+
+            if (winnerNameAudio) {
+                winnerNameAudio.play();
+            }
+
+            setTimeout(() => {
+                if (venceuAudio) {
+                    venceuAudio.play();
+                }
+            }, winnerNameAudio ? 1000 : 0);
+
+            players.forEach((alive, i) => {
+                if (alive) {
+                    scores[i]++;
+                }
+            });
+            saveScores();
+            resetGame();
+        }, 3000);
+    }
+
+    closeMasterModal();
+}
+
+function playMaster(shooterIndex, targetIndex) {
+    if (!players[shooterIndex] || !players[targetIndex] || attempts[shooterIndex] >= 6 || shooterIndex === targetIndex) return;
+
+    let targetButton = document.getElementById(`p${targetIndex + 1}`);
+    let shooterIcon = document.getElementById(`i${shooterIndex + 1}`);
+    let targetIcon = document.getElementById(`i${targetIndex + 1}`);
+    let gunShot = document.getElementById("gunShot");
+    let surviveSound = document.getElementById("surviveSound");
+
+    attempts[shooterIndex]++;
+    shooterIcon.src = `images/vida${attempts[shooterIndex]}.png`;
+
+    let morte = attempts[shooterIndex] >= 6 || Math.random() < 1 / 6;
+
+    if (morte) {
+        gunShot.play();
+        players[targetIndex] = false;
+        targetIcon.src = "images/morto.gif";
+        targetButton.classList.add("dead");
+
+        attempts[shooterIndex] = 0;
+        shooterIcon.src = `images/vida0.png`;
+
+        setTimeout(() => {
+            let ouch = new Audio("./audios/ouch.mp3");
+            ouch.play();
+        }, 500);
+    } else {
+        surviveSound.play();
+    }
+
+    if (players.filter(p => p).length === 1) {
+        setTimeout(() => {
+            winSound.play();
+
+            let winnerIndex = players.findIndex(p => p);
+            let winnerNameAudio = document.getElementById(`audio${normalizeName(playerNames[winnerIndex])}`);
+            let venceuAudio = document.getElementById("venceu");
+
+            if (winnerNameAudio) {
+                winnerNameAudio.play();
+            }
+
+            setTimeout(() => {
+                if (venceuAudio) {
+                    venceuAudio.play();
+                }
+            }, winnerNameAudio ? 1000 : 0);
+
+            players.forEach((alive, i) => {
+                if (alive) {
+                    scores[i]++;
+                }
+            });
+            saveScores();
+            resetGame();
+        }, 3000);
+    }
 }

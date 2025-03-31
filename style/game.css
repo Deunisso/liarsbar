@@ -241,3 +241,180 @@ input:not(:checked)+.slider:before {
     background-color: gray !important;
     cursor: not-allowed;
 }
+
+.action-button {
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 23px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.action-button:hover {
+    transform: scale(1.1);
+}
+
+.devil {
+    background-color: darkred;
+}
+
+#devil-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease-in-out;
+}
+
+#devil-modal.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+#player-selection {
+    display: grid;
+    gap: 15px;
+}
+
+.player-button {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: gray;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 20px;
+    text-align: center;
+}
+
+.player-button.selected {
+    background-color: darkred;
+    transform: scale(1.05);
+}
+
+.execute-container {
+    margin-top: 20px;
+}
+
+.player-button.execute {
+    background-color: #28a745;
+    width: 45%;
+}
+
+.player-button.cancel {
+    background-color: #dc3545;
+    width: 45%;
+}
+
+#devil-modal.close {
+    visibility: hidden;
+    opacity: 0;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    width: 480px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: fadeIn 0.5s ease;
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+}
+
+.execute-container .player-button {
+    display: inline-block;
+    margin: 10px 5px;
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.cancel {
+    background-color: #f44336;
+}
+
+.master {
+    background-color: purple;
+}
+
+#master-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease-in-out;
+}
+
+#master-modal.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+#master-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease-in-out;
+}
+
+select {
+    width: 100%;
+    padding: 12px 20px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 18px;
+    background-color: #f8f8f8;
+    color: #333;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+}
+
+select:focus {
+    border-color: #28a745;
+    background-color: #e8f5e9;
+    outline: none;
+}

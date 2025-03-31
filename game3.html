@@ -7,7 +7,6 @@
     <title>Chaos</title>
     <link rel="icon" type="image/png" href="images/icon.png" />
     <link rel="stylesheet" href="./style/game.css">
-    <link rel="stylesheet" href="./style/game3.css">
 </head>
 
 <body>
@@ -18,6 +17,17 @@
         </label>
     </div>
 
+    <div id="intro-screen">
+        <div class="intro-content">
+            <img src="./images/chaos.png" alt="Chaos" class="chaos-intro-image"><br>
+            <p>Deck Contains</p>
+            <p>5x King's</p>
+            <p>5x Queen's</p>
+            <p>1x Chaos (A)</p>
+            <p>1x Master (10)</p>  
+        </div>
+    </div> 
+
     <div id="card-name-container"></div>
 
     <div class="card-container" id="round-card" onclick="spinCard()">
@@ -27,7 +37,7 @@
     <div class="container" id="players-container"></div>
 
     <div class="buttons-container">
-        <button id="chaosButton" class="action-button chaos">CHAOS</button>
+        <button id="devilButton" class="action-button devil">DEVIL</button>
         <button id="masterButton" class="action-button master">MASTER</button>
     </div>
 
@@ -62,7 +72,7 @@
     <audio id="music" src="./audios/music.mp3" preload="auto" loop></audio>
     <audio id="music2" src="./audios/music2.mp3" preload="auto" loop></audio>
     <audio id="music3" src="./audios/music3.mp3" preload="auto" loop></audio>
-    <audio id="ouch" src="./audios/ouch.mp3" preload="auto" loop></audio>
+    <audio id="ouch" src="./audios/ouch.mp3" preload="auto"></audio>
     <audio id="reload" src="./audios/reload.mp3" preload="auto"></audio>
     <audio id="seLascou" src="./audios/se_lascou.mp3" preload="auto"></audio>
     <audio id="cardSpinSound" src="./audios/spin.mp3" preload="auto"></audio>

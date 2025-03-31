@@ -1,43 +1,9 @@
-let morte = false;
-
-function checkMorte(index) {
-    morte = attempts[index] >= 6 || Math.random() < 1 / 6;
-}
-
-function saveScores() {
-    localStorage.setItem("scores", JSON.stringify(scores));
-}
-
 document.addEventListener("DOMContentLoaded", function () {
-    let startAudio = new Audio("./audios/start.mp3");
+    let startAudio = document.getElementById("start");
     startAudio.play();
+    loadScores();
 
-    let savedScores = JSON.parse(localStorage.getItem("scores"));
-    if (savedScores) {
-        scores = savedScores; 
-    }
-
-    shufflePlayers();
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-    let startAudio = new Audio("./audios/start.mp3");
-    startAudio.play();
-
-    let introScreen = document.createElement("div");
-    introScreen.id = "intro-screen";
-    introScreen.innerHTML = `
-        <div class="intro-content">
-            <img src="./images/chaos.png" alt="Chaos" class="chaos-intro-image"><br>
-            <p>Deck Contains</p>
-            <p>5x King's</p>
-            <p>5x Queen's</p>
-            <p>1x Chaos (7)</p>
-            <p>1x Master (10)</p>
-        </div>
-    `;
-    document.body.appendChild(introScreen);
-
+    let introScreen = document.getElementById("intro-screen");
     let gameContainer = document.getElementById("game-container");
     let roundCard = document.getElementById("round-card");
 
@@ -50,8 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
         introScreen.style.opacity = "0";
         setTimeout(() => {
-            introScreen.remove();
-
+            introScreen.style.display = "none";
             if (gameContainer) gameContainer.style.display = "block";
 
             if (roundCard) {
@@ -62,25 +27,67 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 3000);
 });
 
+function loadScores() {
+    let storedScores = JSON.parse(localStorage.getItem("scores"));
+    if (storedScores) {
+        scores = storedScores;
+        playerNames.forEach((name, i) => {
+            document.getElementById(`score${i + 1}`).innerText = scores[i];
+        });
+    }
+}
+
+let playerNames = ["Player 1", "Player 2", "Player 3", "Player 4"];
 let players = [true, true, true, true];
-let attempts = [0, 0, 0, 0];
+let hasSpun = false;
 let isPlaying = false;
-let cardImages = ['images/q3.png', 'images/k3.png',];
+let attempts = [0, 0, 0, 0];
+let scores = [0, 0, 0, 0];
+let currentCard = '';
+
+let cardImages = ['images/q.png', 'images/k.png', 'images/a.png',
+    'images/q2.png', 'images/k2.png', 'images/a2.png',
+    'images/q3.png', 'images/k3.png',];
+
 let cardNames = {
+    'images/q.png': `<span class="queen">QUEEN'S</span> <span>TABLE</span>`,
+    'images/k.png': `<span class="king">KING'S</span> <span>TABLE</span>`,
+    'images/a.png': `<span class="ace">ACE'S</span> <span>TABLE</span>`,
+    'images/q2.png': `<span class="queen">QUEEN'S</span> <span>TABLE ❤️</span>`,
+    'images/k2.png': `<span class="king">KING'S</span> <span>TABLE ❤️</span>`,
+    'images/a2.png': `<span class="ace">ACE'S</span> <span>TABLE ❤️</span>`,
     'images/q3.png': `<span class="queen">QUEEN'S</span> <span>TABLE</span>`,
     'images/k3.png': `<span class="king">KING'S</span> <span>TABLE</span>`,
 };
-let currentCard = '';
-let scores = [0, 0, 0, 0];
-let playerNames = ["Danilo", "Denilson", "Kauã", "Kaique"];
 
-function shufflePlayers() {
+function resetGame() {
+    const gamemode = 'gamemodes.html';
+
+    setTimeout(() => {
+        window.location.href = gamemode;
+    }, 3000);
+}
+
+function toggleMusic() {
+    let musicToggle = document.getElementById("music-toggle");
+    let music = document.getElementById("music");
+
+    music.pause();
+
+    musicToggle.addEventListener("change", function () {
+        if (musicToggle.checked) {
+            music.play();
+        } else {
+            music.pause();
+        }
+    });
+}; toggleMusic();
+
+function displayPlayers() {
     let storedPlayers = JSON.parse(localStorage.getItem("players"));
     if (storedPlayers) {
         playerNames = storedPlayers;
     }
-
-    playerNames = playerNames.sort(() => Math.random() - 0.5);
 
     let container = document.getElementById("players-container");
     container.innerHTML = "";
@@ -97,18 +104,6 @@ function shufflePlayers() {
     });
 }
 
-let hasSpun = false;
-
-let audioK = new Audio("./audios/audioK.mp3");
-let audioQ = new Audio("./audios/audioQ.mp3");
-
-function shuffleCards() {
-    for (let i = cardImages.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [cardImages[i], cardImages[j]] = [cardImages[j], cardImages[i]];
-    }
-}
-
 function spinCard() {
     if (hasSpun) return;
     hasSpun = true;
@@ -117,15 +112,14 @@ function spinCard() {
     let cardImage = document.getElementById("card-image");
     let cardSpinSound = document.getElementById("cardSpinSound");
     let hiddenContainer = document.querySelector(".container");
-    let audioK = new Audio("./audios/audioK.mp3");
-    let audioQ = new Audio("./audios/audioQ.mp3");
+    let audioA = document.getElementById("audioA");
+    let audioK = document.getElementById("audioK");
+    let audioQ = document.getElementById("audioQ");
     let index = 0;
 
     cardSpinSound.play();
 
-    shuffleCards();
-
-    let currentCards = [cardImages[0], cardImages[1]];
+    let currentCards = [cardImages[6], cardImages[7],];
 
     let interval = setInterval(() => {
         cardImage.src = currentCards[index % currentCards.length];
@@ -142,13 +136,31 @@ function spinCard() {
         cardImage.src = currentCard;
         cardElement.style.transform = "translate(-50%, -50%) rotateY(0deg)";
 
-        if (currentCard.includes("k3.png")) {
+        if (currentCard.includes("a.png")) {
+            audioA.currentTime = 0;
+            audioA.play();
+        } else if (currentCard.includes("k.png")) {
+            audioK.currentTime = 0;
+            audioK.play();
+        } else if (currentCard.includes("q.png")) {
+            audioQ.currentTime = 0;
+            audioQ.play();
+        } else if (currentCard.includes("a2.png")) {
+            audioA.currentTime = 0;
+            audioA.play();
+        } else if (currentCard.includes("k2.png")) {
+            audioK.currentTime = 0;
+            audioK.play();
+        } else if (currentCard.includes("q2.png")) {
+            audioQ.currentTime = 0;
+            audioQ.play();
+        } else if (currentCard.includes("k3.png")) {
             audioK.currentTime = 0;
             audioK.play();
         } else if (currentCard.includes("q3.png")) {
             audioQ.currentTime = 0;
             audioQ.play();
-        } 
+        }
 
         setTimeout(() => {
             cardElement.style.display = 'none';
@@ -166,14 +178,25 @@ function spinCard() {
 
                 hiddenContainer.classList.add("show");
                 reload.play();
-            }, 100); // Este intervalo está fazendo a rotação da carta a cada 100 milissegundos, o que causa o efeito de giro.
-        }, 2000); // Aqui, após a escolha da carta, a carta some da tela (display: none) e um outro contêiner (provavelmente para mostrar o resultado) é exibido (display: flex).
-    }, 2000); // Aqui, a rotação da carta é interrompida e o som de rotação é pausado e resetado.
+            }, 100);
+        }, 2000);
+    }, 2000);
+}; displayPlayers();
+
+function saveScores() {
+    localStorage.setItem("scores", JSON.stringify(scores));
 }
 
-shufflePlayers();
-
 function play(index) {
+    if (players.filter(p => p).length === 1) {
+        players.forEach((alive, i) => {
+            if (alive) {
+                let button = document.getElementById(`p${i + 1}`);
+                button.disabled = true;
+            }
+        });
+    }
+
     if (!players[index] || attempts[index] >= 6 || isPlaying) return;
 
     isPlaying = true;
@@ -188,7 +211,7 @@ function play(index) {
     clickSound.play();
 
     function normalizeName(name) {
-        return name.normalize("NFD").replace(/[̀-ͯ]/g, "");
+        return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     }
 
     setTimeout(() => {
@@ -205,7 +228,7 @@ function play(index) {
 
             let normalizedPlayerName = normalizeName(playerNames[index]);
             let deathAudio = document.getElementById(`audio${normalizedPlayerName}`);
-            let seLascouAudio = new Audio("./audios/se_lascou.mp3");
+            let seLascouAudio = document.getElementById("seLascou");
 
             setTimeout(() => {
                 if (deathAudio) {
@@ -225,12 +248,27 @@ function play(index) {
             if (players.filter(p => p).length === 1) {
                 setTimeout(() => {
                     winSound.play();
+
+                    let winnerIndex = players.findIndex(p => p);
+                    let winnerNameAudio = document.getElementById(`audio${normalizeName(playerNames[winnerIndex])}`);
+                    let venceuAudio = document.getElementById("venceu");
+
+                    if (winnerNameAudio) {
+                        winnerNameAudio.play();
+                    }
+
+                    setTimeout(() => {
+                        if (venceuAudio) {
+                            venceuAudio.play(); 
+                        }
+                    }, winnerNameAudio ? 1000 : 0); 
                 }, 2000);
 
                 setTimeout(() => {
                     players.forEach((alive, i) => {
                         if (alive) {
                             scores[i]++;
+                            document.getElementById(`score${i + 1}`).innerText = scores[i]; // Atualiza a pontuação no HTML
                         }
                     });
                     saveScores();
@@ -242,14 +280,31 @@ function play(index) {
     }, 1000);
 }
 
+// ---------- ---------- ---------- MODO DEVIL ---------- ----------  ---------- //
 document.addEventListener("DOMContentLoaded", function () {
-    let chaosButton = document.getElementById("chaosButton");
-    if (chaosButton) {
-        chaosButton.onclick = openChaosModal;
+    let devilButton = document.getElementById("devilButton");
+    if (devilButton) {
+        devilButton.onclick = openDevilModal;
     }
 });
 
 let selectedPlayers = [];
+
+function disablePlayerButtons() {
+    document.querySelectorAll("#devilButton, #masterButton, #players-container button").forEach(button => {
+        button.classList.add("disabled");
+        button.style.pointerEvents = "none";
+        button.setAttribute("disabled", "true");
+    });
+}
+
+function enablePlayerButtons() {
+    document.querySelectorAll("#devilButton, #masterButton, #players-container button").forEach(button => {
+        button.classList.remove("disabled");
+        button.style.pointerEvents = "auto";
+        button.removeAttribute("disabled");
+    });
+}
 
 function initializeSelectedPlayers() {
     selectedPlayers = players.map((alive, index) => alive ? index : -1).filter(index => index !== -1);
@@ -276,9 +331,9 @@ function togglePlayerSelection(index) {
     }
 }
 
-function openChaosModal() {
+function openDevilModal() {
     let modal = document.createElement("div");
-    modal.id = "chaos-modal";
+    modal.id = "devil-modal";
     modal.innerHTML = `
         <div class="modal-content">
             <div id="player-selection">
@@ -287,8 +342,8 @@ function openChaosModal() {
                 `).join('')}
             </div>
             <div class="execute-container">
-                <div class="player-button execute" onclick="executeChaos()">Executar</div>
-                <div class="player-button cancel" onclick="closeChaosModal()">Cancelar</div>
+                <div class="player-button execute" onclick="executeDevil()">Executar</div>
+                <div class="player-button cancel" onclick="closeDevilModal()">Cancelar</div>
             </div>
         </div>
     `;
@@ -301,13 +356,27 @@ function openChaosModal() {
     initializeSelectedPlayers();
 }
 
-function executeChaos() {
-    playChaos(selectedPlayers);
-    closeChaosModal();
+let isDevilRunning = false;
+
+function executeDevil() {
+    if (isDevilRunning) return;
+
+    isDevilRunning = true;
+    disablePlayerButtons();
+
+    playDevil(selectedPlayers);
+    closeDevilModal();
+
+    let totalDelay = (selectedPlayers.length * 1400);
+
+    setTimeout(() => {
+        enablePlayerButtons();
+        isDevilRunning = false;
+    }, totalDelay);
 }
 
-function closeChaosModal() {
-    let modal = document.getElementById("chaos-modal");
+function closeDevilModal() {
+    let modal = document.getElementById("devil-modal");
     if (modal) {
         modal.classList.remove('show');
         setTimeout(() => {
@@ -316,13 +385,22 @@ function closeChaosModal() {
     }
 }
 
-function playChaos(indices) {
+function playDevil(indices) {
     if (indices.length === 0) return;
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    let shuffledIndices = [...indices];
+    shuffleArray(shuffledIndices);
 
     function playSequential(index, delay) {
         setTimeout(() => {
-            if (!players[index] || attempts[index] >= 6) return;
-
+            if (!players[index] || attempts[index] >= 6 || isPlaying) return;
             let button = document.getElementById(`p${index + 1}`);
             let icon = document.getElementById(`i${index + 1}`);
             let gunShot = document.getElementById("gunShot");
@@ -337,14 +415,14 @@ function playChaos(indices) {
             attempts[index]++;
             icon.src = `images/vida${attempts[index]}.png`;
 
-            let morte = attempts[index] >= 6 || Math.random() < 1 / 6; 
+            let morte = attempts[index] >= 6 || Math.random() < 1 / 6;
 
             if (morte) {
                 gunShot.play();
                 button.classList.add("dead");
                 players[index] = false;
                 icon.src = "images/morto.gif";
-                let ouch = new Audio("./audios/ouch.mp3");
+                let ouch = document.getElementById("ouch");
 
                 setTimeout(() => {
                     if (ouch) {
@@ -355,9 +433,33 @@ function playChaos(indices) {
                 surviveSound.play();
             }
 
+            if (players.filter(p => p).length <= 1) {
+                players.forEach((alive, i) => {
+                    let button = document.getElementById(`p${i + 1}`);
+                    if (button) {
+                        button.disabled = true;
+                    }
+                });
+            }
+
             if (players.filter(p => p).length === 1) {
                 setTimeout(() => {
                     winSound.play();
+
+                    let winnerIndex = players.findIndex(p => p);
+                    let winnerNameAudio = document.getElementById(`audio${normalizeName(playerNames[winnerIndex])}`);
+                    let venceuAudio = document.getElementById("venceu");
+
+                    if (winnerNameAudio) {
+                        winnerNameAudio.play();
+                    }
+
+                    setTimeout(() => {
+                        if (venceuAudio) {
+                            venceuAudio.play();
+                        }
+                    }, winnerNameAudio ? 1000 : 0);
+
                     players.forEach((alive, i) => {
                         if (alive) {
                             scores[i]++;
@@ -372,13 +474,14 @@ function playChaos(indices) {
         }, delay);
     }
 
-    indices.forEach((index, i) => {
-        playSequential(index, i * 1000);
+    shuffledIndices.forEach((index, i) => {
+        playSequential(index, i * 1500);
     });
 
     isPlaying = false;
 }
 
+// ---------- ---------- ---------- MODO CHAOS ---------- ----------  ---------- //
 document.addEventListener("DOMContentLoaded", function () {
     let masterButton = document.getElementById("masterButton");
     if (masterButton) {
@@ -447,7 +550,7 @@ function executeMaster() {
     console.log(`🔫 ${playerNames[shooterIndex]} atirou! Municões restantes: ${6 - attempts[shooterIndex]}`);
     console.log(`🎯 Imagem do atirador atualizada para: images/vida${attempts[shooterIndex]}.png`);
 
-    let morte = attempts[shooterIndex] >= 6 || Math.random() < 1 / 6; 
+    let morte = attempts[shooterIndex] >= 6 || Math.random() < 1 / 6;
 
     if (morte) {
         gunShot.play();
@@ -471,6 +574,21 @@ function executeMaster() {
     if (players.filter(p => p).length === 1) {
         setTimeout(() => {
             winSound.play();
+
+            let winnerIndex = players.findIndex(p => p);
+            let winnerNameAudio = document.getElementById(`audio${normalizeName(playerNames[winnerIndex])}`);
+            let venceuAudio = document.getElementById("venceu");
+
+            if (winnerNameAudio) {
+                winnerNameAudio.play();
+            }
+
+            setTimeout(() => {
+                if (venceuAudio) {
+                    venceuAudio.play();
+                }
+            }, winnerNameAudio ? 1000 : 0);
+
             players.forEach((alive, i) => {
                 if (alive) {
                     scores[i]++;
@@ -496,7 +614,7 @@ function playMaster(shooterIndex, targetIndex) {
     attempts[shooterIndex]++;
     shooterIcon.src = `images/vida${attempts[shooterIndex]}.png`;
 
-    let morte = attempts[shooterIndex] >= 6 || Math.random() < 1 / 6; 
+    let morte = attempts[shooterIndex] >= 6 || Math.random() < 1 / 6;
 
     if (morte) {
         gunShot.play();
@@ -518,6 +636,21 @@ function playMaster(shooterIndex, targetIndex) {
     if (players.filter(p => p).length === 1) {
         setTimeout(() => {
             winSound.play();
+
+            let winnerIndex = players.findIndex(p => p);
+            let winnerNameAudio = document.getElementById(`audio${normalizeName(playerNames[winnerIndex])}`);
+            let venceuAudio = document.getElementById("venceu");
+
+            if (winnerNameAudio) {
+                winnerNameAudio.play();
+            }
+
+            setTimeout(() => {
+                if (venceuAudio) {
+                    venceuAudio.play();
+                }
+            }, winnerNameAudio ? 1000 : 0);
+
             players.forEach((alive, i) => {
                 if (alive) {
                     scores[i]++;
@@ -527,25 +660,4 @@ function playMaster(shooterIndex, targetIndex) {
             resetGame();
         }, 3000);
     }
-}
-
-let musicToggle = document.getElementById("music-toggle");
-let music = document.getElementById("music");
-
-music.pause();
-
-musicToggle.addEventListener("change", function() {
-    if (musicToggle.checked) {
-        music.play(); 
-    } else {
-        music.pause(); 
-    }
-});
-
-function resetGame() {
-    const gamemode = 'gamemodes.html';
-
-    setTimeout(() => {
-        window.location.href = gamemode;
-    }, 3000);
 }
