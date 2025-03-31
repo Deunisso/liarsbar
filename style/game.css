@@ -238,7 +238,6 @@ input:not(:checked)+.slider:before {
 
 .disabled {
     opacity: 0.5;
-    background-color: gray !important;
     cursor: not-allowed;
 }
 
