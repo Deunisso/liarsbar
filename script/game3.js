@@ -99,7 +99,6 @@ function shufflePlayers() {
 
 let hasSpun = false;
 
-let audioA = new Audio("./audios/audioA.mp3");
 let audioK = new Audio("./audios/audioK.mp3");
 let audioQ = new Audio("./audios/audioQ.mp3");
 
@@ -118,7 +117,6 @@ function spinCard() {
     let cardImage = document.getElementById("card-image");
     let cardSpinSound = document.getElementById("cardSpinSound");
     let hiddenContainer = document.querySelector(".container");
-    let audioA = new Audio("./audios/audioA.mp3");
     let audioK = new Audio("./audios/audioK.mp3");
     let audioQ = new Audio("./audios/audioQ.mp3");
     let index = 0;
@@ -144,16 +142,13 @@ function spinCard() {
         cardImage.src = currentCard;
         cardElement.style.transform = "translate(-50%, -50%) rotateY(0deg)";
 
-        if (currentCard.includes("a2.png")) {
-            audioA.currentTime = 0;
-            audioA.play();
-        } else if (currentCard.includes("k2.png")) {
+        if (currentCard.includes("k3.png")) {
             audioK.currentTime = 0;
             audioK.play();
-        } else if (currentCard.includes("q2.png")) {
+        } else if (currentCard.includes("q3.png")) {
             audioQ.currentTime = 0;
             audioQ.play();
-        }
+        } 
 
         setTimeout(() => {
             cardElement.style.display = 'none';
