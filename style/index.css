@@ -27,7 +27,7 @@ body {
 
 .player-card {
     flex: 0 0 auto;
-    width: 220px;
+    width: 200px;
     margin: 0 10px;
     cursor: pointer;
     scroll-snap-align: center;
@@ -80,15 +80,4 @@ body {
 
 #start-game.enabled {
     background-color: green;
-}
-
-@media (max-width: 768px) {
-    .player-card {
-        width: 250px;
-    }
-
-    #start-game {
-        font-size: 16px;
-        padding: 12px 24px;
-    }
 }

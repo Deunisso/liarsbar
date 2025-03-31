@@ -7,15 +7,19 @@ function selectPlayer(element, player) {
     selectSound.load();
 
     const convertedPlayer = convertName(player);
+    const imgElement = element.querySelector("img");
 
     if (selectedPlayers.includes(convertedPlayer)) {
         deselectSound.play();
         selectedPlayers = selectedPlayers.filter(p => p !== convertedPlayer);
         element.classList.remove("selected");
+        imgElement.src = `./images/${player.toLowerCase()}.png`; 
+        
     } else if (selectedPlayers.length < 4) {
         selectSound.play();
         selectedPlayers.push(convertedPlayer);
         element.classList.add("selected");
+        imgElement.src = `./images/${player.toLowerCase()}_selected.png`;
     }
 
     let startButton = document.getElementById("start-game");
