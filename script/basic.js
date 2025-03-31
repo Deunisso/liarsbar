@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const mode = params.get("mode");
 
     if (!mode || !["basic", "devil", "chaos"].includes(mode)) {
-        window.location.href = 'gamemodes.html'; 
+        window.location.href = 'gamemodes.html';
         return;
     }
 
@@ -65,6 +65,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     };
 
+    const cardSets = {
+        basic: [cardImages[0], cardImages[1], cardImages[2]],
+        devil: [cardImages[3], cardImages[4], cardImages[5]],
+        chaos: [cardImages[6], cardImages[7]]
+    };
+
     const gameConfig = gameModes[mode];
 
     document.getElementById("game-image").src = gameConfig.image;
@@ -87,8 +93,9 @@ document.addEventListener("DOMContentLoaded", function () {
     music.load();
     music.play().catch(error => console.error("Erro ao iniciar a música:", error));
 
+    updateCurrentCards(cardSets[mode]);
+
     toggleMusic();
-    updateCurrentCards([cardImages[0], cardImages[1], cardImages[2],]);
 });
 
 function resetGame() {

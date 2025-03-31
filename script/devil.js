@@ -4,8 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (devilButton) {
         devilButton.addEventListener("click", openDevilModal);
     }
-
-    updateCurrentCards([cardImages[3], cardImages[4], cardImages[5],]);
 });
 
 let isDevilRunning = false;

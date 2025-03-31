@@ -4,8 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (masterButton) {
         masterButton.addEventListener("click", openMasterModal);
     }
-
-    updateCurrentCards([cardImages[6], cardImages[7],]);
 });
 
 let isMasterRunning = false;
