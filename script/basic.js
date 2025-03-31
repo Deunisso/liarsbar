@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     music.src = gameConfig.music;
     music.load();
-    music.play().catch(error => console.error("Erro ao iniciar a música:", error));
+    music.play();
 
     updateCurrentCards(cardSets[mode]);
 
