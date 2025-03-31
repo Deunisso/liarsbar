@@ -39,15 +39,15 @@ body {
 }
 
 #basic {
-    background-image: url('./basic.png');
+    background-image: url('images/basic.png');
 }
 
 #devil {
-    background-image: url('./devil.png');
+    background-image: url('images/devil.png');
 }
 
 #chaos {
-    background-image: url('./chaos.png');
+    background-image: url('images/chaos.png');
 }
 
 button.disabled {
