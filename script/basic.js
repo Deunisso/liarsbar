@@ -38,30 +38,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const gameModes = {
         basic: {
-            image: "../images/basic.png",
-            cardBack: "../images/back.png",
+            image: "./images/basic.png",
+            cardBack: "./images/back.png",
             deckInfo: ["6x Ace's", "6x King's", "6x Queen's", "2x Joker's"],
             buttons: [],
-            music: "../audios/basic.mp3"
+            music: "./audios/basic.mp3"
         },
 
         devil: {
-            image: "../images/devil.png",
-            cardBack: "../images/back2.png",
+            image: "./images/devil.png",
+            cardBack: "./images/back2.png",
             deckInfo: ["6x Ace's", "6x King's", "6x Queen's", "2x Joker's"],
             buttons: [{ id: "devilButton", text: "DEVIL", class: "devil" }],
-            music: "../audios/devil.mp3"
+            music: "./audios/devil.mp3"
         },
 
         chaos: {
-            image: "../images/chaos.png",
-            cardBack: "../images/back3.png",
+            image: "./images/chaos.png",
+            cardBack: "./images/back3.png",
             deckInfo: ["5x King's", "5x Queen's", "1x Chaos (A)", "1x Master (10)"],
             buttons: [
                 { id: "devilButton", text: "CHAOS", class: "devil" },
                 { id: "masterButton", text: "MASTER", class: "master" }
             ],
-            music: "../audios/chaos.mp3"
+            music: "./audios/chaos.mp3"
         }
     };
 
@@ -87,6 +87,10 @@ document.addEventListener("DOMContentLoaded", function () {
         button.className = `action-button ${btn.class}`;
         button.textContent = btn.text;
         buttonsContainer.appendChild(button);
+        
+        button.addEventListener("click", () => {
+            playButtonAudio(btn.text);
+        });
     });
 
     music.src = gameConfig.music;
@@ -96,6 +100,29 @@ document.addEventListener("DOMContentLoaded", function () {
     updateCurrentCards(cardSets[mode]);
 
     toggleMusic();
+
+    let currentAudio = null; 
+
+    function playButtonAudio(buttonText) {
+        let audio;
+        if (buttonText === "DEVIL") {
+            audio = document.getElementById("devil-button");
+        } else if (buttonText === "CHAOS") {
+            audio = document.getElementById("chaos-button");
+        } else if (buttonText === "MASTER") {
+            audio = document.getElementById("master-button");
+        }
+
+        if (currentAudio && !currentAudio.paused) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+        }
+
+        if (audio) {
+            currentAudio = audio;
+            audio.play();
+        }
+    }
 });
 
 function resetGame() {
