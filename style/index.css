@@ -48,7 +48,6 @@ body {
 
 .player-card.selected img {
     filter: none;
-    transform: scale(1.2);
 }
 
 
