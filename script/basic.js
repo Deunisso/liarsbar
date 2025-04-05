@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
         basic: {
             image: "./images/basic.png",
             cardBack: "./images/back.png",
-            deckInfo: ["6x Ace's", "6x King's", "6x Queen's", "2x Joker's"],
+            deckInfo: ["6x Clubs", "6x Hearts", "6x Spades", "2x Joker's"],
             buttons: [],
             music: "./audios/basic.mp3"
         },
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
         devil: {
             image: "./images/devil.png",
             cardBack: "./images/back2.png",
-            deckInfo: ["6x Ace's", "6x King's", "6x Queen's", "2x Joker's"],
+            deckInfo: ["6x Clubs", "6x Hearts", "6x Spades", "2x Joker's"],
             buttons: [{ id: "devilButton", text: "DEVIL", class: "devil" }],
             music: "./audios/devil.mp3"
         },
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
         chaos: {
             image: "./images/chaos.png",
             cardBack: "./images/back3.png",
-            deckInfo: ["5x King's", "5x Queen's", "1x Chaos (A)", "1x Master (10)"],
+            deckInfo: ["5x Clubs", "5x Spades", "1x Chaos (A)", "1x Master (10)"],
             buttons: [
                 { id: "devilButton", text: "CHAOS", class: "devil" },
                 { id: "masterButton", text: "MASTER", class: "master" }
@@ -199,19 +199,19 @@ let attempts = [0, 0, 0, 0];
 let scores = [0, 0, 0, 0];
 let currentCard = '';
 
-let cardImages = ['images/q.png', 'images/k.png', 'images/a.png',
-    'images/q2.png', 'images/k2.png', 'images/a2.png',
-    'images/q3.png', 'images/k3.png',];
+let cardImages = ['images/clubs.png', 'images/hearts.png', 'images/spades.png',
+    'images/aceClubs.png', 'images/aceHearts.png', 'images/aceSpades.png',
+    'images/clubs.png', 'images/spades.png',];
 
 let cardNames = {
-    'images/q.png': `<span class="queen">QUEEN'S</span> <span>TABLE</span>`,
-    'images/k.png': `<span class="king">KING'S</span> <span>TABLE</span>`,
-    'images/a.png': `<span class="ace">ACE'S</span> <span>TABLE</span>`,
-    'images/q2.png': `<span class="queen">QUEEN'S</span> <span>TABLE ❤️</span>`,
-    'images/k2.png': `<span class="king">KING'S</span> <span>TABLE ❤️</span>`,
-    'images/a2.png': `<span class="ace">ACE'S</span> <span>TABLE ❤️</span>`,
-    'images/q3.png': `<span class="queen">QUEEN'S</span> <span>TABLE</span>`,
-    'images/k3.png': `<span class="king">KING'S</span> <span>TABLE</span>`,
+    'images/clubs.png': `<span class="queen">CLUBS</span> <span>TABLE</span>`,
+    'images/hearts.png': `<span class="king">HEARTS</span> <span>TABLE</span>`,
+    'images/spades.png': `<span class="ace">SPADES</span> <span>TABLE</span>`,
+    'images/aceClubs.png': `<span class="queen">ACE OF CLUBS</span> <span>TABLE</span>`,
+    'images/aceHearts.png': `<span class="king">ACE OF HEARTS</span> <span>TABLE</span>`,
+    'images/aceSpades.png': `<span class="ace">ACE OF SPADES</span> <span>TABLE</span>`,
+    'images/clubs.png': `<span class="queen">CLUBS</span> <span>TABLE</span>`,
+    'images/spades.png': `<span class="ace">SPADES</span> <span>TABLE</span>`,
 };
 
 function toggleMusic() {
@@ -292,28 +292,28 @@ function spinCard() {
         cardImage.src = currentCard;
         cardElement.style.transform = "translate(-50%, -50%) rotateY(0deg)";
 
-        if (currentCard.includes("a.png")) {
+        if (currentCard.includes("clubs.png")) {
             audioA.currentTime = 0;
             audioA.play();
-        } else if (currentCard.includes("k.png")) {
+        } else if (currentCard.includes("hearts.png")) {
             audioK.currentTime = 0;
             audioK.play();
-        } else if (currentCard.includes("q.png")) {
+        } else if (currentCard.includes("spades.png")) {
             audioQ.currentTime = 0;
             audioQ.play();
-        } else if (currentCard.includes("a2.png")) {
+        } else if (currentCard.includes("clubs.png")) {
             audioA.currentTime = 0;
             audioA.play();
-        } else if (currentCard.includes("k2.png")) {
+        } else if (currentCard.includes("hearts.png")) {
             audioK.currentTime = 0;
             audioK.play();
-        } else if (currentCard.includes("q2.png")) {
+        } else if (currentCard.includes("spades.png")) {
             audioQ.currentTime = 0;
             audioQ.play();
-        } else if (currentCard.includes("k3.png")) {
-            audioK.currentTime = 0;
-            audioK.play();
-        } else if (currentCard.includes("q3.png")) {
+        } else if (currentCard.includes("clubs.png")) {
+            audioA.currentTime = 0;
+            audioA.play();
+        } else if (currentCard.includes("spades.png")) {
             audioQ.currentTime = 0;
             audioQ.play();
         }
