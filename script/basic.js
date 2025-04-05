@@ -138,16 +138,6 @@ function saveScores() {
     localStorage.setItem("scores", JSON.stringify(scores));
 }
 
-function loadScores() {
-    let storedScores = JSON.parse(localStorage.getItem("scores"));
-    if (storedScores) {
-        scores = storedScores;
-        playerNames.forEach((name, i) => {
-            document.getElementById(`score${i + 1}`).innerText = scores[i];
-        });
-    }
-}
-
 let selectedPlayers = [];
 
 function enablePlayerButtons() {
@@ -201,12 +191,13 @@ let currentCard = '';
 
 let cardImages = ['images/clubs.png', 'images/hearts.png', 'images/spades.png',
     'images/aceClubs.png', 'images/aceHearts.png', 'images/aceSpades.png',
-    'images/clubs.png', 'images/spades.png',];
+    'images/clubs.png', 'images/spades.png', 'images/joker.png'];
 
 let cardNames = {
     'images/clubs.png': `<span class="queen">CLUBS</span> <span>TABLE</span>`,
     'images/hearts.png': `<span class="king">HEARTS</span> <span>TABLE</span>`,
     'images/spades.png': `<span class="ace">SPADES</span> <span>TABLE</span>`,
+    'images/joker.png': `<span class="ace">JOKER</span> <span>TABLE</span>`,
     'images/aceClubs.png': `<span class="queen">ACE OF CLUBS</span> <span>TABLE</span>`,
     'images/aceHearts.png': `<span class="king">ACE OF HEARTS</span> <span>TABLE</span>`,
     'images/aceSpades.png': `<span class="ace">ACE OF SPADES</span> <span>TABLE</span>`,
@@ -253,8 +244,18 @@ function displayPlayers() {
 }
 
 window.gameState = {
-    currentCards: [cardImages[0], cardImages[1], cardImages[2],]
+    currentCards: [cardImages[0], cardImages[1], cardImages[2]]
 };
+
+function loadScores() {
+    let storedScores = JSON.parse(localStorage.getItem("scores"));
+    if (storedScores) {
+        scores = storedScores;
+        playerNames.forEach((_, i) => {
+            document.getElementById(`score${i + 1}`).innerText = scores[i];
+        });
+    }
+}
 
 function updateCurrentCards(newCards) {
     window.gameState.currentCards = newCards;
@@ -268,9 +269,13 @@ function spinCard() {
     let cardImage = document.getElementById("card-image");
     let cardSpinSound = document.getElementById("cardSpinSound");
     let hiddenContainer = document.querySelector(".container");
-    let audioA = document.getElementById("audioA");
-    let audioK = document.getElementById("audioK");
-    let audioQ = document.getElementById("audioQ");
+    let clubs = document.getElementById("clubs");
+    let hearts = document.getElementById("hearts");
+    let spades = document.getElementById("spades");
+    let aceClubs = document.getElementById("aceClubs");
+    let aceHearts = document.getElementById("aceHearts");
+    let aceSpades = document.getElementById("aceSpades");    
+    let joker = document.getElementById("joker");       
     let index = 0;
 
     cardSpinSound.play();
@@ -293,23 +298,26 @@ function spinCard() {
         cardElement.style.transform = "translate(-50%, -50%) rotateY(0deg)";
 
         if (currentCard.includes("clubs.png")) {
-            audioA.currentTime = 0;
-            audioA.play();
+            clubs.currentTime = 0;
+            clubs.play();
         } else if (currentCard.includes("hearts.png")) {
-            audioK.currentTime = 0;
-            audioK.play();
+            hearts.currentTime = 0;
+            hearts.play();
         } else if (currentCard.includes("spades.png")) {
-            audioQ.currentTime = 0;
-            audioQ.play();
-        } else if (currentCard.includes("clubs.png")) {
-            audioA.currentTime = 0;
-            audioA.play();
-        } else if (currentCard.includes("hearts.png")) {
-            audioK.currentTime = 0;
-            audioK.play();
-        } else if (currentCard.includes("spades.png")) {
-            audioQ.currentTime = 0;
-            audioQ.play();
+            spades.currentTime = 0;
+            spades.play();
+        } else if (currentCard.includes("joker.png")) {
+            joker.currentTime = 0;
+            joker.play();
+        } else if (currentCard.includes("aceClubs.png")) {
+            aceClubs.currentTime = 0;
+            aceClubs.play();
+        } else if (currentCard.includes("aceHearts.png")) {
+            aceHearts.currentTime = 0;
+            aceHearts.play();
+        } else if (currentCard.includes("aceSpades.png")) {
+            aceSpades.currentTime = 0;
+            aceSpades.play();
         } else if (currentCard.includes("clubs.png")) {
             audioA.currentTime = 0;
             audioA.play();
