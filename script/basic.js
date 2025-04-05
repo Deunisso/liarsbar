@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
         basic: {
             image: "./images/basic.png",
             cardBack: "./images/back.png",
-            deckInfo: ["6x Clubs", "6x Hearts", "6x Spades", "2x Joker's"],
+            deckInfo: ["6x Clubs ♣️", "6x Hearts ♥️", "6x Spades ♠️", "2x Joker's 🃏"],
             buttons: [],
             music: "./audios/basic.mp3"
         },
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
         devil: {
             image: "./images/devil.png",
             cardBack: "./images/back2.png",
-            deckInfo: ["6x Clubs", "6x Hearts", "6x Spades", "2x Joker's"],
+            deckInfo: ["6x Clubs ♣️", "6x Hearts ♥️", "6x Spades ♠️", "2x Joker's 🃏"],
             buttons: [{ id: "devilButton", text: "DEVIL", class: "devil" }],
             music: "./audios/devil.mp3"
         },
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
         chaos: {
             image: "./images/chaos.png",
             cardBack: "./images/back3.png",
-            deckInfo: ["5x Clubs", "5x Spades", "1x Chaos (A)", "1x Master (10)"],
+            deckInfo: ["5x Clubs ♣️", "5x Spades ♠️", "1x Chaos 🅰️", "1x Master 🔟"],
             buttons: [
                 { id: "devilButton", text: "CHAOS", class: "devil" },
                 { id: "masterButton", text: "MASTER", class: "master" }
@@ -194,15 +194,15 @@ let cardImages = ['images/clubs.png', 'images/hearts.png', 'images/spades.png',
     'images/clubs.png', 'images/spades.png', 'images/joker.png'];
 
 let cardNames = {
-    'images/clubs.png': `<span class="queen">CLUBS</span> <span>TABLE</span>`,
-    'images/hearts.png': `<span class="king">HEARTS</span> <span>TABLE</span>`,
-    'images/spades.png': `<span class="ace">SPADES</span> <span>TABLE</span>`,
+    'images/clubs.png': `<span class="queen">CLUBS ♣️</span> <span>TABLE</span>`,
+    'images/hearts.png': `<span class="king">HEARTS ♥️</span> <span>TABLE</span>`,
+    'images/spades.png': `<span class="ace">SPADES ♠️</span> <span>TABLE</span>`,
     'images/joker.png': `<span class="ace">JOKER</span> <span>TABLE</span>`,
-    'images/aceClubs.png': `<span class="queen">ACE OF CLUBS</span> <span>TABLE</span>`,
-    'images/aceHearts.png': `<span class="king">ACE OF HEARTS</span> <span>TABLE</span>`,
-    'images/aceSpades.png': `<span class="ace">ACE OF SPADES</span> <span>TABLE</span>`,
-    'images/clubs.png': `<span class="queen">CLUBS</span> <span>TABLE</span>`,
-    'images/spades.png': `<span class="ace">SPADES</span> <span>TABLE</span>`,
+    'images/aceClubs.png': `<span class="queen">ACE ♣️</span> <span>TABLE</span>`,
+    'images/aceHearts.png': `<span class="king">ACE ♥️</span> <span>TABLE</span>`,
+    'images/aceSpades.png': `<span class="ace">ACE ♠️</span> <span>TABLE</span>`,
+    'images/clubs.png': `<span class="queen">CLUBS ♣️</span> <span>TABLE</span>`,
+    'images/spades.png': `<span class="ace">SPADES ♠️</span> <span>TABLE</span>`,
 };
 
 function toggleMusic() {
