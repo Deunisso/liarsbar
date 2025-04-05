@@ -1,4 +1,4 @@
-document.addEventListener("load", function () {
+document.addEventListener("DOMContentLoaded", () => {
     let masterButton = document.getElementById("masterButton");
 
     if (masterButton) {

@@ -1,4 +1,4 @@
-document.addEventListener("load", function () {
+document.addEventListener("DOMContentLoaded", function () {
     let startAudio = document.getElementById("start");
     let music = document.getElementById("music");
 
