@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("load", function () {
     let devilButton = document.getElementById("devilButton");
 
     if (devilButton) {
